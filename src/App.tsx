@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Catalog />} />
-        <Route path="/admin" element={<Admin />}>
+        <Route path="/mayluce" element={<Admin />}>
           <Route index element={<AdminOrders />} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="settings" element={<AdminSettings />} />
