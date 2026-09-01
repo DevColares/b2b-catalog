@@ -29,18 +29,20 @@ export function AdminSettings() {
 
   return (
     <>
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold flex items-center gap-3" style={{color:'#f9a8d4'}}>
-          <Settings size={32} style={{color:'#ec4899'}} />
-          Configurações do Catálogo
-        </h1>
-        <p className="mt-1" style={{color:'#9d5078'}}>Personalize o título exibido para as revendedoras</p>
+      <header className="page-header">
+        <div>
+          <h1 className="page-title font-bold flex items-center gap-3" style={{color:'#c2458f'}}>
+            <Settings size={32} style={{color:'#e2569a'}} />
+            Configurações do Catálogo
+          </h1>
+          <p className="mt-1" style={{color:'#b0658a'}}>Personalize o título exibido para as revendedoras</p>
+        </div>
       </header>
 
-      <div className="rounded-2xl shadow-lg border p-8 max-w-xl" style={{background:'rgba(30,12,26,0.8)', borderColor:'rgba(190,24,93,0.2)'}}>
+      <div className="rounded-2xl shadow-lg border p-8 max-w-xl w-full" style={{background:'#ffffff', borderColor:'#1e293b'}}>
         <form onSubmit={handleSave} className="space-y-6">
           <div>
-            <label className="block text-sm font-bold mb-2" style={{color:'#f9a8d4'}}>
+            <label className="block text-sm font-bold mb-2" style={{color:'#c2458f'}}>
               Título Principal do Catálogo
             </label>
             <input
@@ -50,13 +52,13 @@ export function AdminSettings() {
               onChange={e => setTitle(e.target.value)}
               placeholder="Ex: Promos Ciclo 15"
               className="w-full p-3 rounded-xl border outline-none text-lg font-bold transition-all"
-              style={{background:'rgba(30,12,26,0.6)', borderColor:'rgba(190,24,93,0.3)', color:'#fce7f3'}}
+              style={{background:'#fff9fc', borderColor:'#fbcfe8', color:'#1e293b'}}
             />
-            <p className="text-xs mt-2" style={{color:'#9d5078'}}>Este título aparece em destaque no banner do catálogo público.</p>
+            <p className="text-xs mt-2" style={{color:'#b0658a'}}>Este título aparece em destaque no banner do catálogo público.</p>
           </div>
 
           <div>
-            <label className="block text-sm font-bold mb-2" style={{color:'#f9a8d4'}}>
+            <label className="block text-sm font-bold mb-2" style={{color:'#c2458f'}}>
               Subtítulo (opcional)
             </label>
             <input
@@ -65,14 +67,14 @@ export function AdminSettings() {
               onChange={e => setSubtitle(e.target.value)}
               placeholder="Ex: Aproveite as ofertas exclusivas!"
               className="w-full p-3 rounded-xl border outline-none transition-all"
-              style={{background:'rgba(30,12,26,0.6)', borderColor:'rgba(190,24,93,0.3)', color:'#fce7f3'}}
+              style={{background:'#fff9fc', borderColor:'#fbcfe8', color:'#1e293b'}}
             />
           </div>
 
           {/* Preview */}
-          <div className="rounded-2xl overflow-hidden border" style={{borderColor:'rgba(190,24,93,0.3)'}}>
-            <p className="text-xs font-semibold px-4 pt-3 pb-1" style={{color:'#9d5078'}}>PRÉVIA</p>
-            <div className="p-6 text-center" style={{background:'linear-gradient(135deg, #be185d 0%, #9d174d 40%, #7e22ce 100%)'}}>
+          <div className="rounded-2xl overflow-hidden border" style={{borderColor:'#fbcfe8'}}>
+            <p className="text-xs font-semibold px-4 pt-3 pb-1" style={{color:'#b0658a'}}>PRÉVIA</p>
+            <div className="p-6 text-center" style={{background:'linear-gradient(135deg, #e2709d 0%, #d35a8e 40%, #8b74d8 100%)'}}>
               <p className="text-pink-200 text-xs font-semibold tracking-widest mb-1 uppercase">✨ Bem-vinda ✨</p>
               <h2 className="text-2xl font-black text-white" style={{fontFamily:'Georgia, serif'}}>
                 {title || 'Seu título aqui'}
@@ -85,7 +87,7 @@ export function AdminSettings() {
             type="submit"
             disabled={saving}
             className="w-full py-3 text-white font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg active:scale-95 disabled:opacity-60"
-            style={{background:'linear-gradient(135deg, #be185d, #7e22ce)', boxShadow:'0 4px 15px rgba(190,24,93,0.3)'}}
+            style={{background:'linear-gradient(135deg, #e2709d, #8b74d8)', boxShadow:'0 4px 15px rgba(226,112,157,0.3)'}}
           >
             <Save size={18} />
             {saving ? 'Salvando...' : saved ? '✓ Salvo!' : 'Salvar Título'}

@@ -39,14 +39,14 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitO
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b transition-colors duration-300" style={{borderColor: isDark ? '#831843' : '#fbcfe8', background: isDark ? 'linear-gradient(to right, #1f0b1a, #2a0e23)' : 'linear-gradient(to right, #fdf2f8, #faf5ff)'}}>
           <div className="flex items-center gap-3">
-            <ShoppingBag size={24} style={{color: isDark ? '#f472b6' : '#db2777'}} />
-            <h2 className="text-xl font-bold" style={{color: isDark ? '#fce7f3' : '#9d174d', fontFamily:'Georgia, serif'}}>Meu Pedido 🛍️</h2>
+            <ShoppingBag size={24} style={{color: isDark ? '#f472b6' : '#e2569a'}} />
+            <h2 className="text-xl font-bold" style={{color: isDark ? '#fce7f3' : '#c2458f', fontFamily:'Georgia, serif'}}>Meu Pedido 🛍️</h2>
           </div>
           <button 
             onClick={onClose}
             className="p-2 rounded-full transition-colors hover:bg-pink-900/30"
           >
-            <X size={24} style={{color: isDark ? '#f472b6' : '#db2777'}} />
+            <X size={24} style={{color: isDark ? '#f472b6' : '#e2569a'}} />
           </button>
         </div>
 
@@ -85,8 +85,8 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitO
         {/* Checkout Form */}
         <div className="p-6 border-t transition-colors duration-300" style={{background: isDark ? '#1a0815' : '#white', borderColor: isDark ? '#831843' : '#fbcfe8'}}>
           <div className="flex items-center justify-between mb-5">
-            <span className="font-semibold" style={{color: isDark ? '#fbcfe8' : '#9d174d'}}>Total do Pedido</span>
-            <span className="text-2xl font-black" style={{color: isDark ? '#f472b6' : '#be185d'}}>R$ {total.toFixed(2)}</span>
+            <span className="font-semibold" style={{color: isDark ? '#fbcfe8' : '#c2458f'}}>Total do Pedido</span>
+            <span className="text-2xl font-black" style={{color: isDark ? '#f472b6' : '#d1547c'}}>R$ {total.toFixed(2)}</span>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-3">
@@ -128,7 +128,7 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitO
               type="submit"
               disabled={items.length === 0}
               className="w-full py-4 font-bold text-lg text-white rounded-2xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg transition-all active:scale-95 cursor-pointer"
-              style={{background:'linear-gradient(135deg, #be185d, #7e22ce)', boxShadow: isDark ? 'none' : '0 8px 25px rgba(190,24,93,0.35)'}}
+              style={{background:'linear-gradient(135deg, #e2709d, #8b74d8)', boxShadow: isDark ? 'none' : '0 8px 25px rgba(226,112,157,0.35)'}}
             >
               <Send size={20} />
               Finalizar Pedido

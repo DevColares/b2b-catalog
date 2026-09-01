@@ -61,7 +61,7 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
                 <td className="p-4">
                   <div className="font-bold" style={{color: isDark ? '#fce7f3' : '#1e293b'}}>{order.resellerName}</div>
                   {order.resellerCode && (
-                    <div className="text-xs font-medium mt-0.5" style={{color: isDark ? '#ec4899' : '#db2777'}}>CPF/Cód: {order.resellerCode}</div>
+                    <div className="text-xs font-medium mt-0.5" style={{color: isDark ? '#ec4899' : '#e2569a'}}>CPF/Cód: {order.resellerCode}</div>
                   )}
                   <div className="text-sm" style={{color: isDark ? '#9d5078' : '#64748b'}}>{order.resellerPhone}</div>
                 </td>
@@ -97,7 +97,7 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
                     className="p-2 rounded-lg transition-colors inline-flex cursor-pointer"
                     title="Ver Detalhes"
                     style={{color: isDark ? '#9d5078' : '#94a3b8'}}
-                    onMouseEnter={e => {e.currentTarget.style.color = '#ec4899'; e.currentTarget.style.background = isDark ? 'rgba(236,72,153,0.1)' : '#fdf2f8';}}
+                    onMouseEnter={e => {e.currentTarget.style.color = '#e2569a'; e.currentTarget.style.background = isDark ? 'rgba(236,72,153,0.1)' : '#fdf2f8';}}
                     onMouseLeave={e => {e.currentTarget.style.color = isDark ? '#9d5078' : '#94a3b8'; e.currentTarget.style.background = 'transparent';}}
                   >
                     <Eye size={20} />

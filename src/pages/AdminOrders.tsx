@@ -29,9 +29,9 @@ export function AdminOrders() {
 
   return (
     <>
-      <header className="mb-8 flex justify-between items-end">
+      <header className="page-header items-end">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800 dark:text-pink-200">Gestão de Pedidos</h1>
+          <h1 className="page-title font-bold text-slate-800 dark:text-pink-200">Gestão de Pedidos</h1>
           <p className="mt-1 text-slate-500 dark:text-pink-400/70">Gerencie os pedidos recebidos via catálogo</p>
         </div>
       </header>

@@ -8,6 +8,7 @@ export interface Product {
   imageUrl: string;
   regularPrice: number;
   promoPrice: number;
+  resalePrice?: number;
   progressiveDiscounts?: { minQuantity: number; discountPercentage: number }[];
   isActive: boolean;
   isFeatured?: boolean;

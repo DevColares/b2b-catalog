@@ -9,6 +9,7 @@ interface ProductCardProps {
     imageUrl: string;
     regularPrice: number;
     promoPrice: number;
+    resalePrice?: number;
     progressiveDiscounts?: { minQuantity: number; discountPercentage: number }[];
   };
   quantity: number;
@@ -36,6 +37,11 @@ export function ProductCard({ product, quantity, onUpdateQuantity }: ProductCard
   }
 
   const hasPromo = (product.promoPrice < product.regularPrice && product.promoPrice > 0) || activeDiscount > 0;
+
+  // Lucro potencial do revendedor = valor de revenda - preço de compra atual
+  const hasResale = !!product.resalePrice && product.resalePrice > 0;
+  const resaleProfit = hasResale ? product.resalePrice! - currentPrice : 0;
+  const profitPercentage = hasResale && currentPrice > 0 ? (resaleProfit / currentPrice) * 100 : 0;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -125,15 +131,15 @@ export function ProductCard({ product, quantity, onUpdateQuantity }: ProductCard
         </div>
       </div>
 
-      {/* Popup de Informações e Quantidade (Otimizado para Mobile) */}
+      {/* Popup de Informações e Quantidade (flutuante com fundo glass) */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-xs transition-opacity duration-300">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div 
-            className="fixed inset-0" 
+            className="fixed inset-0 bg-black/40 backdrop-blur-md" 
             onClick={() => setShowModal(false)}
           />
           <div 
-            className="relative w-full sm:max-w-md bg-white dark:bg-[#1a0815] rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl z-10 transition-transform duration-300 transform translate-y-0 flex flex-col max-h-[85vh] sm:max-h-[90vh]"
+            className="relative w-full sm:max-w-md bg-white/70 dark:bg-[#1a0815]/55 backdrop-blur-2xl rounded-3xl overflow-hidden shadow-2xl z-10 border border-white/50 dark:border-white/10 flex flex-col max-h-[88vh]"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-pink-100 dark:border-pink-950/40">
@@ -148,12 +154,12 @@ export function ProductCard({ product, quantity, onUpdateQuantity }: ProductCard
 
             {/* Content (Scrollable on small devices) */}
             <div className="overflow-y-auto p-5 space-y-4 flex-1">
-              {/* Product Image */}
-              <div className="aspect-square w-full max-h-[250px] rounded-xl overflow-hidden bg-pink-50 dark:bg-pink-950/10 flex items-center justify-center">
+              {/* Product Image (1:1 proporcional, sem cortes) */}
+              <div className="aspect-square w-full max-h-[300px] rounded-xl overflow-hidden bg-pink-50 dark:bg-pink-950/10 flex items-center justify-center">
                 <img 
                   src={product.imageUrl || 'https://placehold.co/400x400/e2e8f0/64748b?text=Sem+Foto'} 
                   alt={product.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
 
@@ -175,13 +181,31 @@ export function ProductCard({ product, quantity, onUpdateQuantity }: ProductCard
                 </div>
               </div>
 
+              {/* Revenda / Lucro Potencial do Revendedor */}
+              {hasResale && (
+                <div className="p-3.5 rounded-xl bg-white/70 dark:bg-pink-950/10 border border-pink-200/60 dark:border-pink-800/30 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-pink-700 dark:text-pink-300 uppercase tracking-wider">Valor de Revenda</span>
+                    <span className="text-lg font-black text-pink-600 dark:text-pink-400">R$ {product.resalePrice!.toFixed(2)}</span>
+                  </div>
+                  <div className="flex items-center justify-between pt-2 border-t border-pink-100 dark:border-pink-950/40">
+                    <span className="text-xs font-bold text-pink-700 dark:text-pink-300 uppercase tracking-wider">Seu Lucro Potencial</span>
+                    <span className="text-right">
+                      <span className="block text-base font-black text-green-600 dark:text-green-400">+R$ {resaleProfit.toFixed(2)}</span>
+                      <span className="block text-[11px] font-bold text-green-600/80 dark:text-green-400/80">({profitPercentage.toFixed(0)}% de margem)</span>
+                    </span>
+                  </div>
+                </div>
+              )}
+
               {/* Progressive Discount Section */}
               {product.progressiveDiscounts && product.progressiveDiscounts.length > 0 && (
                 <div className="p-3.5 rounded-xl bg-pink-50/50 dark:bg-pink-950/20 border border-pink-100/30 space-y-2">
                   <h4 className="text-xs font-bold text-pink-700 dark:text-pink-300 uppercase tracking-wider">Tabela de Descontos Progressivos:</h4>
-                  <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                     {product.progressiveDiscounts.map((tier, idx) => {
                       const isCurrent = quantity >= tier.minQuantity;
+                      const tierUnitPrice = product.regularPrice - (product.regularPrice * tier.discountPercentage / 100);
                       return (
                         <div 
                           key={idx} 
@@ -191,7 +215,12 @@ export function ProductCard({ product, quantity, onUpdateQuantity }: ProductCard
                               : 'bg-white dark:bg-pink-950/10 border-pink-100 dark:border-pink-900/20 text-slate-600 dark:text-pink-300/80'
                           }`}
                         >
-                          A partir de {tier.minQuantity} un.: <strong className={isCurrent ? 'text-green-600 dark:text-green-400' : 'text-pink-600 dark:text-pink-400'}>{tier.discountPercentage}% OFF</strong>
+                          <div>A partir de <strong className={isCurrent ? 'text-green-700 dark:text-green-300' : 'text-slate-800 dark:text-pink-100'}>{tier.minQuantity} un.</strong></div>
+                          <div className="mt-1">
+                            <strong className={isCurrent ? 'text-green-600 dark:text-green-400' : 'text-pink-600 dark:text-pink-400'}>{tier.discountPercentage}% OFF</strong>
+                            <span className="text-slate-500 dark:text-pink-300/70"> · </span>
+                            <span className="font-bold text-slate-800 dark:text-pink-100">R$ {tierUnitPrice.toFixed(2)}/un</span>
+                          </div>
                         </div>
                       );
                     })}
