@@ -2,15 +2,43 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary: #ef6aa5;
-  --color-primary-hover: #e2569a;
-  --color-background: #f8fafc;
-  --color-surface: #ffffff;
+  /* ---- Soft Pink Glassmorphism — Brand ---- */
+  --color-primary: #8c4a5a;
+  --color-primary-hover: #743a48;
+  --color-accent: #c48b96;
+  --color-accent-soft: #f2d6dc;
+
+  /* ---- Neutros / Tipografia ---- */
+  --color-ink: #2d1e23;
+  --color-ink-secondary: #6e5b62;
+  --color-muted: #9e8b92;
+  --color-cream: #fdf7f7;
+
+  /* ---- Superfícies glass ---- */
+  --color-glass: rgba(255, 255, 255, 0.45);
+  --color-glass-hover: rgba(255, 255, 255, 0.65);
+  --color-glass-header: rgba(253, 247, 247, 0.75);
+  --color-glass-input: rgba(255, 255, 255, 0.6);
+  --color-glass-border: rgba(255, 255, 255, 0.6);
+  --color-glass-shadow: rgba(140, 74, 90, 0.08);
+  --color-glass-shadow-hover: rgba(140, 74, 90, 0.15);
+
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+}
+
+html,
+body {
+  min-height: 100%;
 }
 
 body {
-  background-color: var(--color-background);
-  color: #0f172a;
+  /* Gradiente de fundo da página */
+  background: linear-gradient(135deg, #fdf7f7 0%, #f5e6e8 50%, #ebd5d8 100%);
+  background-attachment: fixed;
+  color: #2d1e23;
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
   transition: background-color 0.3s, color 0.3s;
 }
 
@@ -60,4 +88,136 @@ body.dark {
     black 92%,
     transparent 100%
   );
+}
+
+/* =========================================================
+   SOFT PINK GLASSMORPHISM — Utilitários reutilizáveis
+   ========================================================= */
+
+/* Cartão/superfície "vidro fosco" padrão */
+.glass {
+  background: var(--color-glass);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 16px;
+}
+
+/* Cartão com hover elevado (translateY -4px) */
+.glass-card {
+  background: var(--color-glass);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 8px 32px 0 var(--color-glass-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: var(--color-glass-hover);
+  box-shadow: 0 12px 40px 0 var(--color-glass-shadow-hover);
+  transform: translateY(-4px);
+}
+
+/* Botão de ação principal com gradiente rosa fosco */
+.glass-action {
+  background: linear-gradient(135deg, #8c4a5a 0%, #a35c6e 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  box-shadow: 0 4px 14px 0 rgba(140, 74, 90, 0.25);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-action:hover {
+  background: linear-gradient(135deg, #743a48 0%, #8c4a5a 100%);
+  box-shadow: 0 8px 20px 0 rgba(140, 74, 90, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Badge "vidro" (desconto / categoria) */
+.glass-badge {
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.glass-badge--discount {
+  background: rgba(140, 74, 90, 0.12);
+  color: #8c4a5a;
+}
+
+.glass-badge--category {
+  background: rgba(196, 139, 150, 0.18);
+  color: #6d3c47;
+}
+
+/* Input "vidro" para a busca */
+.glass-input {
+  background: var(--color-glass-input);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 12px;
+  color: #2d1e23;
+  transition: box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-input::placeholder {
+  color: #9e8b92;
+}
+
+.glass-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 32px 0 rgba(140, 74, 90, 0.15);
+}
+
+/* Toast / popup de notificação */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.toast-pop {
+  animation: toast-in 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Overlay + popup modal (pedido) */
+@keyframes modal-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-pop {
+  animation: modal-pop 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fade-in 0.25s ease-out;
 }

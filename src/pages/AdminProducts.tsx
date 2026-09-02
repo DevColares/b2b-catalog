@@ -105,10 +105,10 @@ export function AdminProducts() {
         </div>
       </div>
 
-      <div className="table-scroll rounded-2xl shadow-lg overflow-hidden border" style={{background: '#ffffff', borderColor: '#1e293b'}}>
+      <div className="table-scroll rounded-2xl shadow-lg overflow-hidden border" style={{background: '#ffffff', borderColor: '#fce7f3'}}>
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b text-sm" style={{background: '#fff9fc', borderColor: '#1e293b', color: '#c2458f'}}>
+            <tr className="border-b text-sm" style={{background: '#fff9fc', borderColor: '#fce7f3', color: '#c2458f'}}>
               <th className="p-4 font-semibold">Produto</th>
               <th className="p-4 font-semibold">SKU</th>
               <th className="p-4 font-semibold">Preços</th>
@@ -117,9 +117,9 @@ export function AdminProducts() {
               <th className="p-4 font-semibold text-right">Ações</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-pink-900/20">
+          <tbody className="divide-y divide-pink-100">
             {products.map(product => (
-              <tr key={product.id} className="transition-colors" style={{borderColor: '#1e293b'}} onMouseEnter={e => (e.currentTarget.style.background = '#fff9fc')} onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
+              <tr key={product.id} className="transition-colors" style={{borderColor: '#fce7f3'}} onMouseEnter={e => (e.currentTarget.style.background = '#fff9fc')} onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
                 <td className="p-4 flex items-center gap-3">
                   <img 
                     src={product.imageUrl || 'https://placehold.co/100x100?text=Sem+Foto'} 
@@ -180,8 +180,8 @@ export function AdminProducts() {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 backdrop-blur-sm z-50 flex items-center justify-center p-4" style={{background:'rgba(26,10,20,0.7)'}}>
-          <div className="rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl border" style={{background:'#1e0c1a', borderColor:'#fbcfe8'}}>
-            <div className="p-6 border-b flex justify-between items-center" style={{background:'#fff9fc', borderColor:'#1e293b'}}>
+          <div className="rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl border" style={{background:'#ffffff', borderColor:'#fce7f3'}}>
+            <div className="p-6 border-b flex justify-between items-center" style={{background:'#fff9fc', borderColor:'#fce7f3'}}>
               <h2 className="text-xl font-bold" style={{color:'#c2458f'}}>
                 {editingProduct ? 'Editar Produto' : 'Novo Produto'}
               </h2>
@@ -221,7 +221,7 @@ export function AdminProducts() {
                   <p className="text-[11px] mt-1" style={{color:'#b0658a'}}>Preço sugerido de revenda. Usado para calcular o lucro do revendedor.</p>
                 </div>
 
-                <div className="col-span-2 mt-2 p-4 rounded-xl border" style={{background:'#fff5f9', borderColor:'#1e293b'}}>
+                <div className="col-span-2 mt-2 p-4 rounded-xl border" style={{background:'#fff5f9', borderColor:'#fce7f3'}}>
                   <div className="flex items-center justify-between mb-3">
                     <label className="block text-sm font-bold" style={{color:'#c2458f'}}>Desconto Progressivo</label>
                     <button 
@@ -310,7 +310,7 @@ export function AdminProducts() {
                 </div>
               </div>
 
-              <div className="pt-6 flex justify-end gap-3 border-t mt-6" style={{borderColor:'#1e293b'}}>
+              <div className="pt-6 flex justify-end gap-3 border-t mt-6" style={{borderColor:'#fce7f3'}}>
                 <button type="button" onClick={() => setIsModalOpen(false)} className="px-5 py-2.5 font-bold rounded-xl transition-colors" style={{color:'#b0658a'}} onMouseEnter={e => (e.currentTarget.style.background = '#fff9fc')} onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>Cancelar</button>
                 <button type="submit" className="px-5 py-2.5 text-white font-bold rounded-xl shadow-lg transition-all active:scale-95" style={{background:'linear-gradient(135deg, #e2709d, #8b74d8)', boxShadow:'0 4px 15px rgba(226,112,157,0.3)'}}>Salvar Produto</button>
               </div>

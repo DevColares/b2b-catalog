@@ -40,7 +40,7 @@ export function Admin() {
               <span className="relative text-2xl select-none">🌸</span>
             </div>
             <div>
-              <h1 className="font-black text-base leading-tight text-white" style={{ fontFamily: 'Georgia, serif', letterSpacing: '-0.5px' }}>Super Ketlen Myluce</h1>
+              <h1 className="font-black text-base leading-tight text-white" style={{ fontFamily: 'Georgia, serif', letterSpacing: '-0.5px' }}>Super Ketlen Mayluce</h1>
               <p className="text-xs font-semibold" style={{ color: '#f9a8d4', letterSpacing: '0.05em' }}>PAINEL ADMIN</p>
             </div>
           </div>

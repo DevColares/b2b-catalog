@@ -31,49 +31,67 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitO
     <>
       <div 
         className="fixed inset-0 backdrop-blur-sm z-40 transition-opacity"
-        style={{background: isDark ? 'rgba(30,5,20,0.5)' : 'rgba(157,23,77,0.25)'}}
+        style={{background: isDark ? 'rgba(30,5,20,0.5)' : 'rgba(140,74,90,0.2)'}}
         onClick={onClose}
       />
       
-      <div className="fixed top-0 right-0 h-full w-full max-w-md shadow-2xl z-50 flex flex-col transition-colors duration-300" style={{background: isDark ? '#1a0815' : '#fff9fc'}}>
+      <div 
+        className="fixed top-0 right-0 h-full w-full max-w-md z-50 flex flex-col transition-colors duration-300"
+        style={{
+          background: isDark ? '#1a0815' : 'rgba(253,247,247,0.75)',
+          backdropFilter: 'blur(16px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+          borderLeft: isDark ? '1px solid #831843' : '1px solid rgba(255,255,255,0.6)',
+          boxShadow: isDark ? 'none' : '-12px 0 40px 0 rgba(140,74,90,0.15)'
+        }}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b transition-colors duration-300" style={{borderColor: isDark ? '#831843' : '#fbcfe8', background: isDark ? 'linear-gradient(to right, #1f0b1a, #2a0e23)' : 'linear-gradient(to right, #fdf2f8, #faf5ff)'}}>
+        <div className="flex items-center justify-between p-6 border-b transition-colors duration-300" style={{borderColor: isDark ? '#831843' : 'rgba(255,255,255,0.6)'}}>
           <div className="flex items-center gap-3">
-            <ShoppingBag size={24} style={{color: isDark ? '#f472b6' : '#e2569a'}} />
-            <h2 className="text-xl font-bold" style={{color: isDark ? '#fce7f3' : '#c2458f', fontFamily:'Georgia, serif'}}>Meu Pedido 🛍️</h2>
+            <ShoppingBag size={24} style={{color: isDark ? '#f472b6' : '#8C4A5A'}} />
+            <h2 className="text-xl font-bold" style={{color: isDark ? '#fce7f3' : '#8C4A5A', fontFamily:"'Plus Jakarta Sans', sans-serif"}}>Meu Pedido 🛍️</h2>
           </div>
           <button 
             onClick={onClose}
-            className="p-2 rounded-full transition-colors hover:bg-pink-900/30"
+            className="p-2 rounded-full transition-colors hover:bg-white/60 dark:hover:bg-pink-900/30"
           >
-            <X size={24} style={{color: isDark ? '#f472b6' : '#e2569a'}} />
+            <X size={24} style={{color: isDark ? '#f472b6' : '#8C4A5A'}} />
           </button>
         </div>
 
         {/* Cart Items */}
-        <div className="flex-1 overflow-y-auto p-6 transition-colors duration-300" style={{background: isDark ? '#150611' : '#fff0f8'}}>
+        <div className="flex-1 overflow-y-auto p-6 transition-colors duration-300">
           {items.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center" style={{color: isDark ? '#9d5078' : '#f472b6'}}>
+            <div className="h-full flex flex-col items-center justify-center" style={{color: isDark ? '#9d5078' : '#9E8B92'}}>
               <span className="text-6xl mb-4">🛒</span>
               <p className="font-medium">Seu carrinho está vazio.</p>
             </div>
           ) : (
             <div className="space-y-4">
               {items.map(item => (
-                <div key={item.productId} className="p-4 rounded-2xl shadow-sm flex items-center justify-between border transition-colors duration-300" style={{background: isDark ? '#220b1c' : '#white', borderColor: isDark ? '#5c1032' : '#fce7f3'}}>
+                <div 
+                  key={item.productId} 
+                  className="p-4 flex items-center justify-between border transition-colors duration-300"
+                  style={{
+                    background: isDark ? '#220b1c' : 'rgba(255,255,255,0.45)',
+                    borderColor: isDark ? '#5c1032' : 'rgba(255,255,255,0.6)',
+                    borderRadius: 16,
+                    boxShadow: isDark ? 'none' : '0 8px 32px 0 rgba(140,74,90,0.08)'
+                  }}
+                >
                   <div className="flex-1">
-                    <h4 className="font-semibold text-sm" style={{color: isDark ? '#fce7f3' : '#831843'}}>{item.title}</h4>
-                    <div className="font-bold mt-1" style={{color: isDark ? '#f472b6' : '#db2777'}}>R$ {item.unitPrice.toFixed(2)}</div>
+                    <h4 className="font-semibold text-sm" style={{color: isDark ? '#fce7f3' : '#2D1E23'}}>{item.title}</h4>
+                    <div className="font-bold mt-1" style={{color: isDark ? '#f472b6' : '#8C4A5A'}}>R$ {item.unitPrice.toFixed(2)}</div>
                   </div>
-                  <div className="flex items-center gap-3 ml-4 p-1 rounded-xl" style={{background: isDark ? '#1a0815' : '#fdf2f8'}}>
+                  <div className="flex items-center gap-3 ml-4 p-1 rounded-xl" style={{background: isDark ? '#1a0815' : 'rgba(242,214,220,0.5)'}}>
                     <button 
                       onClick={() => onUpdateQuantity(item.productId, item.quantity - 1)}
-                      className="w-8 h-8 flex items-center justify-center bg-white dark:bg-pink-950 rounded-lg shadow-sm font-bold text-lg transition-colors hover:text-pink-600 dark:text-pink-200"
+                      className="w-8 h-8 flex items-center justify-center bg-white/70 dark:bg-pink-950 rounded-lg shadow-sm font-bold text-lg transition-colors hover:text-primary dark:text-pink-200"
                     >-</button>
-                    <span className="font-bold w-5 text-center" style={{color: isDark ? '#f472b6' : '#9d174d'}}>{item.quantity}</span>
+                    <span className="font-bold w-5 text-center" style={{color: isDark ? '#f472b6' : '#8C4A5A'}}>{item.quantity}</span>
                     <button 
                       onClick={() => onUpdateQuantity(item.productId, item.quantity + 1)}
-                      className="w-8 h-8 flex items-center justify-center bg-white dark:bg-pink-950 rounded-lg shadow-sm font-bold text-lg transition-colors hover:text-pink-600 dark:text-pink-200"
+                      className="w-8 h-8 flex items-center justify-center bg-white/70 dark:bg-pink-950 rounded-lg shadow-sm font-bold text-lg transition-colors hover:text-primary dark:text-pink-200"
                     >+</button>
                   </div>
                 </div>
@@ -83,10 +101,10 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitO
         </div>
 
         {/* Checkout Form */}
-        <div className="p-6 border-t transition-colors duration-300" style={{background: isDark ? '#1a0815' : '#white', borderColor: isDark ? '#831843' : '#fbcfe8'}}>
+        <div className="p-6 border-t transition-colors duration-300" style={{background: isDark ? '#1a0815' : 'rgba(255,255,255,0.45)', borderColor: isDark ? '#831843' : 'rgba(255,255,255,0.6)'}}>
           <div className="flex items-center justify-between mb-5">
-            <span className="font-semibold" style={{color: isDark ? '#fbcfe8' : '#c2458f'}}>Total do Pedido</span>
-            <span className="text-2xl font-black" style={{color: isDark ? '#f472b6' : '#d1547c'}}>R$ {total.toFixed(2)}</span>
+            <span className="font-semibold" style={{color: isDark ? '#fbcfe8' : '#6E5B62'}}>Total do Pedido</span>
+            <span className="text-2xl font-black" style={{color: isDark ? '#f472b6' : '#2D1E23'}}>R$ {total.toFixed(2)}</span>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-3">
@@ -97,8 +115,8 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitO
                 required
                 value={name}
                 onChange={e => setName(e.target.value)}
-                className="w-full p-3 rounded-xl outline-none transition-all border"
-                style={{borderColor: isDark ? '#831843' : '#fbcfe8', background: isDark ? '#260d20' : '#fff9fc', color: isDark ? '#fce7f3' : '#1e1b4b'}}
+                className="glass-input w-full p-3 outline-none"
+                style={isDark ? {background:'#260d20', borderColor:'#831843', color:'#fce7f3'} : undefined}
               />
             </div>
             
@@ -108,8 +126,8 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitO
                 placeholder="CPF ou Código de Revendedor"
                 value={resellerCode}
                 onChange={e => setResellerCode(e.target.value)}
-                className="w-full p-3 rounded-xl outline-none transition-all border"
-                style={{borderColor: isDark ? '#831843' : '#fbcfe8', background: isDark ? '#260d20' : '#fff9fc', color: isDark ? '#fce7f3' : '#1e1b4b'}}
+                className="glass-input w-full p-3 outline-none"
+                style={isDark ? {background:'#260d20', borderColor:'#831843', color:'#fce7f3'} : undefined}
               />
             </div>
             
@@ -119,16 +137,16 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitO
                 value={notes}
                 onChange={e => setNotes(e.target.value)}
                 rows={2}
-                className="w-full p-3 rounded-xl outline-none transition-all resize-none border"
-                style={{borderColor: isDark ? '#831843' : '#fbcfe8', background: isDark ? '#260d20' : '#fff9fc', color: isDark ? '#fce7f3' : '#1e1b4b'}}
+                className="glass-input w-full p-3 outline-none resize-none"
+                style={isDark ? {background:'#260d20', borderColor:'#831843', color:'#fce7f3'} : undefined}
               />
             </div>
             
             <button 
               type="submit"
               disabled={items.length === 0}
-              className="w-full py-4 font-bold text-lg text-white rounded-2xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg transition-all active:scale-95 cursor-pointer"
-              style={{background:'linear-gradient(135deg, #e2709d, #8b74d8)', boxShadow: isDark ? 'none' : '0 8px 25px rgba(226,112,157,0.35)'}}
+              className="glass-action w-full py-4 text-lg font-bold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={isDark ? {background:'linear-gradient(135deg, #8C4A5A, #A35C6E)', boxShadow:'none'} : undefined}
             >
               <Send size={20} />
               Finalizar Pedido

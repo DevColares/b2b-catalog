@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Eye, ChevronDown, Check } from 'lucide-react';
 
 export interface Order {
@@ -30,6 +30,35 @@ const statusOrder: Order['status'][] = ['pending', 'processing', 'completed', 'c
 
 export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTableProps) {
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
+  const [anchor, setAnchor] = useState<{ top: number; left: number; openUp: boolean } | null>(null);
+
+  // Fecha o menu ao clicar fora, rolar ou redimensionar
+  useEffect(() => {
+    if (!openDropdownId) return;
+    const close = () => setOpenDropdownId(null);
+    window.addEventListener('click', close);
+    window.addEventListener('scroll', close, true);
+    window.addEventListener('resize', close);
+    return () => {
+      window.removeEventListener('click', close);
+      window.removeEventListener('scroll', close, true);
+      window.removeEventListener('resize', close);
+    };
+  }, [openDropdownId]);
+
+  const toggleDropdown = (orderId: string, e: React.MouseEvent) => {
+    if (openDropdownId === orderId) {
+      setOpenDropdownId(null);
+      return;
+    }
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    if (rect) {
+      const DROPDOWN_H = 190; // altura aproximada das 4 opções
+      const openUp = rect.bottom + DROPDOWN_H + 8 > window.innerHeight && rect.top > DROPDOWN_H;
+      setAnchor({ top: openUp ? rect.top - DROPDOWN_H - 4 : rect.bottom + 4, left: rect.left, openUp });
+    }
+    setOpenDropdownId(orderId);
+  };
 
   return (
     <div className="w-full rounded-2xl shadow-lg overflow-hidden border transition-all duration-300" style={{background: '#ffffff', borderColor: '#fce7f3'}}>
@@ -69,7 +98,7 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
                 <td className="p-4">
                   <div className="relative inline-block">
                     <button
-                      onClick={() => setOpenDropdownId(prev => (prev === order.id ? null : order.id))}
+                      onClick={(e) => { e.stopPropagation(); toggleDropdown(order.id, e); }}
                       className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold border transition-colors cursor-pointer ${meta.chip}`}
                     >
                       <span className={`w-2 h-2 rounded-full ${meta.dot}`}></span>
@@ -78,7 +107,7 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
                     </button>
 
                     {isOpen && (
-                      <div className="absolute top-full left-0 mt-1 w-44 rounded-xl shadow-xl border overflow-hidden z-10" style={{background: '#fff9fc', borderColor: '#fce7f3'}}>
+                      <div className="fixed w-44 rounded-xl shadow-xl border overflow-hidden z-50" style={{background: '#fff9fc', borderColor: '#fce7f3', top: anchor?.top ?? 0, left: anchor?.left ?? 0}}>
                         {statusOrder.map((status) => {
                           const item = statusMeta[status];
                           const isCurrent = status === order.status;
