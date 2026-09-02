@@ -124,6 +124,8 @@ export function AdminProducts() {
                   <img 
                     src={product.imageUrl || 'https://placehold.co/100x100?text=Sem+Foto'} 
                     alt={product.title} 
+                    loading="lazy"
+                    decoding="async"
                     className="w-12 h-12 rounded-lg object-cover"
                     style={{background:'#fff0f6'}}
                   />

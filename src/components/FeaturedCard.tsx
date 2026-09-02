@@ -22,11 +22,13 @@ export function FeaturedCard({ product }: FeaturedCardProps) {
         </div>
       )}
 
-      <div className="relative aspect-square overflow-hidden bg-accent-soft/40">
+      <div className="relative aspect-square overflow-hidden bg-accent-soft/40 p-2">
         <img
           src={product.imageUrl || 'https://placehold.co/400x400/e2e8f0/64748b?text=Sem+Foto'}
           alt={product.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-105"
         />
       </div>
 

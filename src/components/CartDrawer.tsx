@@ -36,14 +36,8 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitO
       />
       
       <div 
-        className="fixed top-0 right-0 h-full w-full max-w-md z-50 flex flex-col transition-colors duration-300"
-        style={{
-          background: isDark ? '#1a0815' : 'rgba(253,247,247,0.75)',
-          backdropFilter: 'blur(16px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-          borderLeft: isDark ? '1px solid #831843' : '1px solid rgba(255,255,255,0.6)',
-          boxShadow: isDark ? 'none' : '-12px 0 40px 0 rgba(140,74,90,0.15)'
-        }}
+        className="fixed top-0 right-0 h-full w-full max-w-md z-50 flex flex-col transition-colors duration-300 glass-drawer"
+        style={isDark ? {background: '#1a0815', borderLeft: '1px solid #831843', boxShadow: 'none'} : undefined}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b transition-colors duration-300" style={{borderColor: isDark ? '#831843' : 'rgba(255,255,255,0.6)'}}>

@@ -56,7 +56,6 @@ export function ProductCard({ product, quantity, onUpdateQuantity }: ProductCard
       <div 
         onClick={() => setShowModal(true)}
         className="group glass-card relative flex flex-col rounded-2xl overflow-hidden h-full cursor-pointer"
-        style={{padding: 0, background: 'rgba(255,255,255,0.45)', borderColor: 'rgba(255,255,255,0.6)'}}
       >
         {activeDiscount > 0 ? (
           <div className="absolute top-3 right-3 z-10 glass-badge glass-badge--category shadow-sm">
@@ -68,11 +67,13 @@ export function ProductCard({ product, quantity, onUpdateQuantity }: ProductCard
           </div>
         ) : null}
         
-        <div className="relative aspect-square overflow-hidden bg-accent-soft/40">
+        <div className="relative aspect-square overflow-hidden bg-accent-soft/40 p-2">
           <img 
             src={product.imageUrl || 'https://placehold.co/400x400/e2e8f0/64748b?text=Sem+Foto'} 
             alt={product.title}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
             <span className="bg-white/90 dark:bg-pink-950/90 text-primary dark:text-pink-200 px-4 py-2 rounded-xl font-bold text-sm shadow-md flex items-center gap-1.5 active:scale-95 transition-all">

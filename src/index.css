@@ -32,14 +32,21 @@ body {
 }
 
 body {
-  /* Gradiente de fundo da página */
+  /* Gradiente de fundo da página (sem attachment fixed: evita repaints no scroll mobile) */
   background: linear-gradient(135deg, #fdf7f7 0%, #f5e6e8 50%, #ebd5d8 100%);
-  background-attachment: fixed;
   color: #2d1e23;
   font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
   font-size: 14px;
   line-height: 1.5;
   transition: background-color 0.3s, color 0.3s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+input,
+textarea {
+  touch-action: manipulation; /* elimina o atraso de toque em navegadores mobile */
 }
 
 body.dark {
@@ -170,6 +177,29 @@ body.dark {
   transition: box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
 }
 
+/* Header fixo do catálogo (vidro leve) */
+.glass-header {
+  background: rgba(253, 247, 247, 0.75);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+}
+
+/* Faixa do hero (vidro leve) */
+.glass-hero {
+  background: linear-gradient(135deg, rgba(242, 214, 220, 0.55) 0%, rgba(234, 205, 213, 0.4) 40%, rgba(196, 139, 150, 0.45) 100%);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+/* Drawer do carrinho (vidro leve) */
+.glass-drawer {
+  background: rgba(253, 247, 247, 0.75);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border-left: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: -12px 0 40px 0 rgba(140, 74, 90, 0.15);
+}
+
 .glass-input::placeholder {
   color: #9e8b92;
 }
@@ -220,4 +250,34 @@ body.dark {
 
 .fade-in {
   animation: fade-in 0.25s ease-out;
+}
+
+/* =========================================================
+   PERFORMANCE MOBILE — blur pesado só onde há GPU de sobra
+   ========================================================= */
+@media (max-width: 768px), (hover: none) {
+  .glass,
+  .glass-card,
+  .glass-input,
+  .glass-header,
+  .glass-hero,
+  .glass-drawer {
+    /* Fundo quase opaco dispensa o backdrop-filter (caro no mobile) */
+    background: rgba(255, 255, 255, 0.92);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .glass-hero {
+    background: linear-gradient(135deg, rgba(242, 214, 220, 0.75) 0%, rgba(234, 205, 213, 0.6) 40%, rgba(196, 139, 150, 0.65) 100%);
+  }
+
+  .glass-card:hover {
+    /* Sem translateY no toque: evita "pulos" e repaints */
+    transform: none;
+  }
+
+  .marquee-track {
+    will-change: transform; /* animação do carrossel na GPU */
+  }
 }

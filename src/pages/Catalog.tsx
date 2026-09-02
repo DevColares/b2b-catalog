@@ -121,7 +121,7 @@ export function Catalog() {
   return (
     <div className="min-h-screen pb-20 transition-colors duration-300" style={{background: isDarkMode ? 'linear-gradient(135deg, #12030d 0%, #1e0918 30%, #17041c 60%, #1c051a 100%)' : 'linear-gradient(135deg, #FDF7F7 0%, #F5E6E8 50%, #EBD5D8 100%)'}}>
       {/* Header */}
-      <header className="sticky top-0 z-30 border-b transition-colors duration-300 glass-header" style={{background: isDarkMode ? 'rgba(30,9,24,0.85)' : 'rgba(253,247,247,0.75)', backdropFilter: 'blur(16px) saturate(180%)', WebkitBackdropFilter: 'blur(16px) saturate(180%)', borderColor: isDarkMode ? '#831843' : 'rgba(255,255,255,0.6)', boxShadow: isDarkMode ? 'none' : '0 4px 20px 0 rgba(140,74,90,0.08)'}}>
+      <header className="glass-header sticky top-0 z-30 border-b transition-colors duration-300" style={isDarkMode ? {background: 'rgba(30,9,24,0.85)', borderColor: '#831843'} : {borderColor: 'rgba(255,255,255,0.6)', boxShadow: '0 4px 20px 0 rgba(140,74,90,0.08)'}}>
         <div className="max-w-6xl mx-auto px-3 sm:px-4 h-16 sm:h-20 flex items-center justify-between">
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             {/* Feminine floral logo */}
@@ -139,7 +139,7 @@ export function Catalog() {
             <button 
               onClick={() => setIsCartOpen(true)}
               className="relative p-3 rounded-xl transition-all border"
-              style={{background: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.6)', backdropFilter: 'blur(16px) saturate(180%)', WebkitBackdropFilter: 'blur(16px) saturate(180%)', borderColor: isDarkMode ? '#831843' : 'rgba(255,255,255,0.7)', boxShadow: isDarkMode ? 'none' : '0 4px 14px 0 rgba(140,74,90,0.15)'}}
+              style={{background: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.92)', borderColor: isDarkMode ? '#831843' : 'rgba(255,255,255,0.7)', boxShadow: isDarkMode ? 'none' : '0 4px 14px 0 rgba(140,74,90,0.15)'}}
             >
               <ShoppingBag size={22} style={{color: isDarkMode ? '#fbcfe8' : '#8C4A5A'}} />
               {totalCartItems > 0 && (
@@ -153,7 +153,7 @@ export function Catalog() {
       </header>
 
       {/* Hero Search */}
-      <div className="py-10 sm:py-14 px-4 mb-8 relative overflow-hidden" style={{background: 'linear-gradient(135deg, rgba(242,214,220,0.55) 0%, rgba(234,205,213,0.4) 40%, rgba(196,139,150,0.45) 100%)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)'}}>
+      <div className="glass-hero py-10 sm:py-14 px-4 mb-8 relative overflow-hidden">
         {/* Decorative circles */}
         <div className="absolute -top-10 -left-10 w-52 h-52 rounded-full opacity-40" style={{background:'radial-gradient(circle, #C48B96, transparent)'}}></div>
         <div className="absolute -bottom-16 -right-10 w-72 h-72 rounded-full opacity-40" style={{background:'radial-gradient(circle, #F2D6DC, transparent)'}}></div>
