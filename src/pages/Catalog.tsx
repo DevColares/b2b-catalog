@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from 'react';
+C\T\import { useState, useMemo, useEffect, useRef } from 'react';
 import { Search, ShoppingBag, CheckCircle2, XCircle, X } from 'lucide-react';
 import { ProductCard } from '../components/ProductCard';
 import { FeaturedCard } from '../components/FeaturedCard';
@@ -50,23 +50,12 @@ export function Catalog({ uid }: { uid: string }) {
     return () => unsubscribe();
   }, [uid]);
 
-  // Segurança: se os dados demorarem demais, sai do splash mesmo assim
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      loaded.current.profile = true;
-      loaded.current.products = true;
-      setLoading(false);
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, [uid]);
-
   // Tela de carregamento (splash neutro, sem conteúdo padrão piscando)
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: '#ffffff' }}>
         <div className="w-12 h-12 rounded-full border-4 border-slate-200 animate-spin" style={{ borderTopColor: 'var(--color-primary, #111827)' }} />
         <p className="text-sm font-semibold" style={{ color: '#6b7280' }}>Carregando catálogo...</p>
-        <p className="text-xs" style={{ color: '#9ca3af' }}>Isso pode levar alguns segundos</p>
       </div>
     );
   }
@@ -129,7 +118,7 @@ export function Catalog({ uid }: { uid: string }) {
 
   const totalCartItems = Object.values(cart).reduce((a, b) => a + b, 0);
 
-  const filteredProducts = products.filter(p => 
+  const filteredProducts = products.filter(p =>
     p.isActive && p.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -138,7 +127,7 @@ export function Catalog({ uid }: { uid: string }) {
 
   const handleSubmitOrder = async (name: string, phone: string, resellerCode: string) => {
     const totalAmount = cartItems.reduce((acc, item) => acc + (item.unitPrice * item.quantity), 0);
-    
+
     try {
       await createOrder(uid, {
         resellerName: name,
@@ -150,7 +139,7 @@ export function Catalog({ uid }: { uid: string }) {
       });
 
       setToast({ type: 'success', message: 'Pedido enviado com sucesso para o painel de vendas!' });
-      
+
       // Clear cart and close drawer
       setCart({});
       setIsCartOpen(false);
@@ -161,14 +150,14 @@ export function Catalog({ uid }: { uid: string }) {
   };
 
   return (
-    <div className="min-h-screen pb-20 transition-colors duration-300" style={{background: 'var(--store-bg-gradient, linear-gradient(180deg, #ffffff 0%, #f9fafb 100%))'}}>
+    <div className="min-h-screen pb-20 transition-colors duration-300" style={{ background: 'var(--store-bg-gradient, linear-gradient(180deg, #ffffff 0%, #f9fafb 100%))' }}>
       {/* Header */}
-      <header className="glass-header sticky top-0 z-30 border-b transition-colors duration-300" style={isDarkMode ? {background: 'rgba(30,9,24,0.85)', borderColor: '#831843'} : {borderColor: 'rgba(255,255,255,0.6)', boxShadow: '0 4px 20px 0 rgba(140,74,90,0.08)'}}>
+      <header className="glass-header sticky top-0 z-30 border-b transition-colors duration-300" style={isDarkMode ? { background: 'rgba(30,9,24,0.85)', borderColor: '#831843' } : { borderColor: 'rgba(255,255,255,0.6)', boxShadow: '0 4px 20px 0 rgba(140,74,90,0.08)' }}>
         <div className="max-w-6xl mx-auto px-3 sm:px-4 h-16 sm:h-20 flex items-center justify-between">
           <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             {/* Feminine floral logo */}
             <div className="relative w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center flex-shrink-0">
-              <div className="absolute inset-0 rounded-2xl glass overflow-hidden" style={{background: 'var(--store-gradient, linear-gradient(135deg, #4B5563, #111827))'}}>
+              <div className="absolute inset-0 rounded-2xl glass overflow-hidden" style={{ background: 'var(--store-gradient, linear-gradient(135deg, #4B5563, #111827))' }}>
                 {profile?.logoUrl ? (
                   <img src={profile.logoUrl} alt="Logo" className="relative w-full h-full object-contain p-1.5" style={{ background: '#ffffff' }} />
                 ) : (
@@ -177,20 +166,20 @@ export function Catalog({ uid }: { uid: string }) {
               </div>
             </div>
             <div className="min-w-0">
-              <h1 className="font-black text-base sm:text-lg leading-none truncate" style={{color: isDarkMode ? 'var(--color-accent-soft, #fbcfe8)' : 'var(--color-primary, #8C4A5A)', fontFamily: "'Plus Jakarta Sans', sans-serif", letterSpacing: '-0.5px'}}>{catalogTitle}</h1>
-              <p className="hidden sm:block text-xs font-semibold mt-1" style={{color: isDarkMode ? '#f472b6' : 'var(--color-accent, #C48B96)', letterSpacing: '0.05em'}}>CATÁLOGO EXCLUSIVO</p>
+              <h1 className="font-black text-base sm:text-lg leading-none truncate" style={{ color: isDarkMode ? 'var(--color-accent-soft, #fbcfe8)' : 'var(--color-primary, #8C4A5A)', fontFamily: "'Plus Jakarta Sans', sans-serif", letterSpacing: '-0.5px' }}>{catalogTitle}</h1>
+              <p className="hidden sm:block text-xs font-semibold mt-1" style={{ color: isDarkMode ? '#f472b6' : 'var(--color-accent, #C48B96)', letterSpacing: '0.05em' }}>CATÁLOGO EXCLUSIVO</p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <button 
+            <button
               onClick={() => setIsCartOpen(true)}
               className="relative p-3 rounded-xl transition-all border"
-              style={{background: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.92)', borderColor: isDarkMode ? '#831843' : 'rgba(255,255,255,0.7)', boxShadow: isDarkMode ? 'none' : '0 4px 14px 0 rgba(140,74,90,0.15)'}}
+              style={{ background: isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.92)', borderColor: isDarkMode ? '#831843' : 'rgba(255,255,255,0.7)', boxShadow: isDarkMode ? 'none' : '0 4px 14px 0 rgba(140,74,90,0.15)' }}
             >
-              <ShoppingBag size={22} style={{color: isDarkMode ? 'var(--color-accent-soft, #fbcfe8)' : 'var(--color-primary, #8C4A5A)'}} />
+              <ShoppingBag size={22} style={{ color: isDarkMode ? 'var(--color-accent-soft, #fbcfe8)' : 'var(--color-primary, #8C4A5A)' }} />
               {totalCartItems > 0 && (
-                <span className="absolute -top-2 -right-2 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold border-2 border-white shadow-sm" style={{background:'var(--color-primary, #8C4A5A)', color:'#fff'}}>
+                <span className="absolute -top-2 -right-2 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold border-2 border-white shadow-sm" style={{ background: 'var(--color-primary, #8C4A5A)', color: '#fff' }}>
                   {totalCartItems}
                 </span>
               )}
@@ -202,13 +191,13 @@ export function Catalog({ uid }: { uid: string }) {
       {/* Hero Search */}
       <div className="glass-hero py-10 sm:py-14 px-4 mb-8 relative overflow-hidden">
         {/* Decorative circles */}
-        <div className="absolute -top-10 -left-10 w-52 h-52 rounded-full opacity-40" style={{background:'radial-gradient(circle, var(--color-accent, #C48B96), transparent)'}}></div>
-        <div className="absolute -bottom-16 -right-10 w-72 h-72 rounded-full opacity-40" style={{background:'radial-gradient(circle, var(--color-accent-soft, #F2D6DC), transparent)'}}></div>
+        <div className="absolute -top-10 -left-10 w-52 h-52 rounded-full opacity-40" style={{ background: 'radial-gradient(circle, var(--color-accent, #C48B96), transparent)' }}></div>
+        <div className="absolute -bottom-16 -right-10 w-72 h-72 rounded-full opacity-40" style={{ background: 'radial-gradient(circle, var(--color-accent-soft, #F2D6DC), transparent)' }}></div>
 
         <div className="max-w-3xl mx-auto text-center relative">
           <p className="text-primary text-xs sm:text-sm font-semibold tracking-widest mb-2 uppercase">Boas-vindas</p>
           {/* Dynamic catalog title */}
-          <h2 className="hero-title font-black mb-2" style={{color:'#2D1E23', fontFamily:"'Plus Jakarta Sans', sans-serif", textShadow:'0 2px 20px rgba(255,255,255,0.6)'}}>
+          <h2 className="hero-title font-black mb-2" style={{ color: '#2D1E23', fontFamily: "'Plus Jakarta Sans', sans-serif", textShadow: '0 2px 20px rgba(255,255,255,0.6)' }}>
             {catalogTitle}
           </h2>
           {catalogSubtitle && (
@@ -218,8 +207,8 @@ export function Catalog({ uid }: { uid: string }) {
             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
               <Search className="text-primary/60" size={22} />
             </div>
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="Buscar produtos..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
@@ -231,12 +220,12 @@ export function Catalog({ uid }: { uid: string }) {
 
       {/* Product Grid */}
       <main className="max-w-6xl mx-auto px-4">
-        
+
         {/* Featured Marquee Carousel */}
         {featuredProducts.length > 0 && !searchQuery && (
           <div className="mb-10">
             <div className="flex items-center justify-between mb-5">
-              <h3 className="text-xl font-black flex items-center gap-2" style={{color: isDarkMode ? 'var(--color-accent-soft, #fce7f3)' : '#2d1e23'}}>
+              <h3 className="text-xl font-black flex items-center gap-2" style={{ color: isDarkMode ? 'var(--color-accent-soft, #fce7f3)' : '#2d1e23' }}>
                 <span className="inline-block w-2 h-5 bg-primary rounded-full"></span>
                 Destaques
               </h3>
@@ -259,10 +248,10 @@ export function Catalog({ uid }: { uid: string }) {
         )}
 
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold" style={{color: isDarkMode ? 'var(--color-accent-soft, #fce7f3)' : '#2d1e23'}}>
+          <h3 className="text-xl font-bold" style={{ color: isDarkMode ? 'var(--color-accent-soft, #fce7f3)' : '#2d1e23' }}>
             {searchQuery ? 'Resultados da Busca' : 'Todos os Produtos'}
           </h3>
-          <span className="text-sm font-medium" style={{color: isDarkMode ? '#f472b6' : '#6b7280'}}>
+          <span className="text-sm font-medium" style={{ color: isDarkMode ? '#f472b6' : '#6b7280' }}>
             {filteredProducts.length} encontrados
           </span>
         </div>
@@ -280,7 +269,7 @@ export function Catalog({ uid }: { uid: string }) {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20" style={{color: isDarkMode ? '#f472b6' : '#6b7280'}}>
+          <div className="text-center py-20" style={{ color: isDarkMode ? '#f472b6' : '#6b7280' }}>
             <Search size={48} className="mx-auto mb-4 opacity-20" />
             <p className="text-lg">Nenhum produto encontrado para "{searchQuery}"</p>
           </div>
@@ -289,12 +278,12 @@ export function Catalog({ uid }: { uid: string }) {
 
       {/* Popup de notificação (pedido enviado / erro) */}
       {toast && (
-        <div 
+        <div
           className="toast-pop fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] w-[calc(100%-2rem)] max-w-md"
           role="status"
           aria-live="polite"
         >
-          <div 
+          <div
             className="flex items-start gap-3 p-4 rounded-2xl border"
             style={{
               background: 'rgba(255,255,255,0.9)',
@@ -305,21 +294,21 @@ export function Catalog({ uid }: { uid: string }) {
             }}
           >
             {toast.type === 'success' ? (
-              <CheckCircle2 size={24} className="flex-shrink-0 mt-0.5" style={{color: 'var(--color-primary, #8C4A5A)'}} />
+              <CheckCircle2 size={24} className="flex-shrink-0 mt-0.5" style={{ color: 'var(--color-primary, #8C4A5A)' }} />
             ) : (
-              <XCircle size={24} className="flex-shrink-0 mt-0.5" style={{color: '#B43C3C'}} />
+              <XCircle size={24} className="flex-shrink-0 mt-0.5" style={{ color: '#B43C3C' }} />
             )}
             <div className="flex-1">
-              <p className="font-bold text-sm" style={{color: toast.type === 'success' ? 'var(--color-primary, #8C4A5A)' : '#B43C3C'}}>
+              <p className="font-bold text-sm" style={{ color: toast.type === 'success' ? 'var(--color-primary, #8C4A5A)' : '#B43C3C' }}>
                 {toast.type === 'success' ? 'Pedido confirmado' : 'Ops, algo deu errado'}
               </p>
-              <p className="text-sm mt-0.5" style={{color: '#6E5B62'}}>{toast.message}</p>
+              <p className="text-sm mt-0.5" style={{ color: '#6E5B62' }}>{toast.message}</p>
             </div>
-            <button 
+            <button
               onClick={() => setToast(null)}
               aria-label="Fechar notificação"
               className="p-1 rounded-full transition-colors hover:bg-white/70 flex-shrink-0"
-              style={{color: '#6b7280'}}
+              style={{ color: '#6b7280' }}
             >
               <X size={18} />
             </button>
@@ -327,7 +316,7 @@ export function Catalog({ uid }: { uid: string }) {
         </div>
       )}
 
-      <CartDrawer 
+      <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         items={cartItems}
