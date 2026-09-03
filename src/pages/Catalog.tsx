@@ -52,7 +52,11 @@ export function Catalog({ uid }: { uid: string }) {
 
   // Segurança: se os dados demorarem demais, sai do splash mesmo assim
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 10000);
+    const timer = setTimeout(() => {
+      loaded.current.profile = true;
+      loaded.current.products = true;
+      setLoading(false);
+    }, 5000);
     return () => clearTimeout(timer);
   }, [uid]);
 
@@ -62,6 +66,7 @@ export function Catalog({ uid }: { uid: string }) {
       <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: '#ffffff' }}>
         <div className="w-12 h-12 rounded-full border-4 border-slate-200 animate-spin" style={{ borderTopColor: 'var(--color-primary, #111827)' }} />
         <p className="text-sm font-semibold" style={{ color: '#6b7280' }}>Carregando catálogo...</p>
+        <p className="text-xs" style={{ color: '#9ca3af' }}>Isso pode levar alguns segundos</p>
       </div>
     );
   }
