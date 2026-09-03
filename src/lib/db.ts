@@ -82,6 +82,10 @@ export const subscribeToProducts = (uid: string, callback: (products: Product[])
   const q = productsCol(uid);
   return onSnapshot(q, (snapshot) => {
     callback(snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Product)));
+  }, (err) => {
+    // Nunca deixa a tela travar em "carregando": loga e segue com lista vazia
+    console.error('Erro ao carregar produtos:', err.code, err.message);
+    callback([]);
   });
 };
 
@@ -106,6 +110,9 @@ export const subscribeToOrders = (uid: string, callback: (orders: Order[]) => vo
   const q = query(ordersCol(uid), orderBy('createdAt', 'desc'));
   return onSnapshot(q, (snapshot) => {
     callback(snapshot.docs.map(d => ({ id: d.id, ...d.data() } as Order)));
+  }, (err) => {
+    console.error('Erro ao carregar pedidos:', err.code, err.message);
+    callback([]);
   });
 };
 
@@ -204,5 +211,8 @@ export const subscribeToProfile = (uid: string, callback: (p: UserProfile) => vo
   return onSnapshot(profileDoc(uid), (snap) => {
     if (snap.exists()) callback({ ...DEFAULT_PROFILE, ...snap.data() } as UserProfile);
     else callback(DEFAULT_PROFILE);
+  }, (err) => {
+    console.error('Erro ao carregar perfil da loja:', err.code, err.message);
+    callback(DEFAULT_PROFILE);
   });
 };

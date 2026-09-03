@@ -50,6 +50,12 @@ export function Catalog({ uid }: { uid: string }) {
     return () => unsubscribe();
   }, [uid]);
 
+  // Segurança: se os dados demorarem demais, sai do splash mesmo assim
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 10000);
+    return () => clearTimeout(timer);
+  }, [uid]);
+
   // Tela de carregamento (splash neutro, sem conteúdo padrão piscando)
   if (loading) {
     return (
