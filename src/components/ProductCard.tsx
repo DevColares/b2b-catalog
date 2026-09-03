@@ -78,8 +78,8 @@ export function ProductCard({ product, quantity, onUpdateQuantity, onGetQuantity
           <div className="absolute top-3 right-3 z-10 glass-badge glass-badge--discount shadow-sm">EXCLUSIVO</div>
         ) : null}
 
-        {hasVariants && product.colors!.length > 0 && (
-          <div className="absolute top-3 left-3 z-10 glass-badge glass-badge--category shadow-sm">
+        {hasVariants && !hasPromo && activeDiscount === 0 && (
+          <div className="absolute top-3 right-3 z-10 glass-badge glass-badge--category shadow-sm">
             {product.colors!.length} cores{hasSizes ? ` · ${product.sizes!.length} tam` : ''}
           </div>
         )}
@@ -100,7 +100,12 @@ export function ProductCard({ product, quantity, onUpdateQuantity, onGetQuantity
         </div>
 
         <div className="p-4 flex flex-col flex-grow">
-          <div className="text-xs text-accent dark:text-pink-400 font-medium tracking-wider mb-1">SKU: {product.sku}</div>
+          <div className="text-xs text-accent dark:text-pink-400 font-medium tracking-wider mb-1 flex items-center gap-2 flex-wrap">
+            <span>SKU: {product.sku}</span>
+            {hasVariants && (
+              <span className="glass-badge glass-badge--category">{product.colors!.length} cores{hasSizes ? ` · ${product.sizes!.length} tam` : ''}</span>
+            )}
+          </div>
           <h3 className="font-bold text-ink dark:text-pink-100 text-base leading-tight mb-2 line-clamp-2">{product.title}</h3>
 
           <div className="mt-auto mb-3">

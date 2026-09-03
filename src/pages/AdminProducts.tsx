@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import { Package, Plus, Pencil, CheckCircle, XCircle, Trash2 } from 'lucide-react';
 import { subscribeToProducts, addProduct, updateProduct } from '../lib/db';
 import { useAuth } from '../context/AuthContext';
@@ -97,14 +97,15 @@ export function AdminProducts() {
   };
 
   return (
-    <div>
+    <>
+
       <div className="page-header">
         <div>
           <h1 className="page-title font-bold flex items-center gap-3" style={{color:'var(--color-primary, #c2458f)'}}>
             <Package size={32} style={{color:'var(--color-accent, #e2569a)'}} />
             Produtos
           </h1>
-          <p className="mt-1" style={{color:'var(--color-accent, #b0658a)'}}>Gerencie o catálogo de produtos do B2B</p>
+          <p className="mt-1" style={{color:'var(--color-accent, #b0658a)'}}>Gerencie o catÃ¡logo de produtos do B2B</p>
         </div>
         <div className="page-header-actions">
           <button 
@@ -118,16 +119,17 @@ export function AdminProducts() {
         </div>
       </div>
 
-      <div className="table-scroll rounded-2xl shadow-lg overflow-hidden border" style={{background: '#ffffff', borderColor: 'var(--color-accent-soft, #fce7f3)'}}>
+      {/* Desktop: tabela */}
+      <div className="hidden md:block table-scroll rounded-2xl shadow-lg overflow-hidden border" style={{background: '#ffffff', borderColor: 'var(--color-accent-soft, #fce7f3)'}}>
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="border-b text-sm" style={{background: 'var(--color-accent-soft, #fff9fc)', borderColor: 'var(--color-accent-soft, #fce7f3)', color: 'var(--color-primary, #c2458f)'}}>
               <th className="p-4 font-semibold">Produto</th>
               <th className="p-4 font-semibold">SKU</th>
-              <th className="p-4 font-semibold">Preços</th>
+              <th className="p-4 font-semibold">PreÃ§os</th>
               <th className="p-4 font-semibold text-center">Destaque</th>
               <th className="p-4 font-semibold text-center">Status</th>
-              <th className="p-4 font-semibold text-right">Ações</th>
+              <th className="p-4 font-semibold text-right">AÃ§Ãµes</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-pink-100">
@@ -152,13 +154,13 @@ export function AdminProducts() {
                   )}
                   {product.progressiveDiscounts && product.progressiveDiscounts.length > 0 && (
                     <div className="text-xs font-bold mt-1" style={{color:'#a78bfa'}}>
-                      Desc. Prog: {product.progressiveDiscounts.length} níveis
+                      Desc. Prog: {product.progressiveDiscounts.length} nÃ­veis
                     </div>
                   )}
                 </td>
                 <td className="p-4 text-center">
                   <span className={`px-2 py-1 rounded text-xs font-bold ${product.isFeatured ? 'bg-amber-900/40 text-amber-300' : 'text-slate-500'}`} style={!product.isFeatured ? {background:'var(--color-accent-soft, #fff9fc)'} : {}}>
-                    {product.isFeatured ? 'Sim' : 'Não'}
+                    {product.isFeatured ? 'Sim' : 'NÃ£o'}
                   </span>
                 </td>
                 <td className="p-4 text-center">
@@ -191,6 +193,57 @@ export function AdminProducts() {
           </tbody>
         </table>
       </div>
+      {/* Mobile: cards */}
+      <div className="md:hidden space-y-3">
+        {products.map(product => (
+          <div key={product.id} className="rounded-2xl border p-4 shadow-sm flex gap-3" style={{background: '#ffffff', borderColor: 'var(--color-accent-soft, #fce7f3)'}}>
+            <img
+              src={product.imageUrl || 'https://placehold.co/100x100?text=Sem+Foto'}
+              alt={product.title}
+              loading="lazy"
+              className="w-16 h-16 rounded-xl object-cover flex-shrink-0"
+              style={{background:'var(--color-accent-soft, #fff0f6)'}}
+            />
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start justify-between gap-2">
+                <h4 className="font-bold text-sm leading-snug line-clamp-2" style={{color:'#1e293b'}}>{product.title}</h4>
+                <button onClick={() => toggleActive(product)} className="flex-shrink-0 cursor-pointer" title={product.isActive ? 'Ocultar do catÃ¡logo' : 'Ativar no catÃ¡logo'}>
+                  {product.isActive ? <CheckCircle size={22} className="text-green-500" /> : <XCircle size={22} className="text-slate-300" />}
+                </button>
+              </div>
+              <p className="text-[11px] font-mono mt-0.5" style={{color:'var(--color-accent, #b0658a)'}}>{product.sku}</p>
+
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 mt-1.5 text-xs">
+                <span className="font-bold" style={{color:'var(--color-primary, #c2458f)'}}>R$ {product.regularPrice.toFixed(2)}</span>
+                {product.promoPrice > 0 && <span className="font-semibold text-green-600">Promo: R$ {product.promoPrice.toFixed(2)}</span>}
+                {product.isFeatured && <span className="font-semibold text-amber-500">â˜… Destaque</span>}
+              </div>
+
+              {(product.colors?.length || product.sizes?.length) ? (
+                <p className="text-[11px] mt-1 font-semibold" style={{color:'#6b7280'}}>
+                  {product.colors?.length ? `${product.colors.length} cores` : ''}{product.colors?.length && product.sizes?.length ? ' Â· ' : ''}{product.sizes?.length ? `${product.sizes.length} tamanhos` : ''}
+                </p>
+              ) : null}
+
+              <button
+                onClick={() => openModal(product)}
+                className="mt-2.5 w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-sm font-bold border transition-colors cursor-pointer"
+                style={{color:'var(--color-primary, #c2458f)', borderColor:'var(--color-accent-soft, #fce7f3)'}}
+              >
+                <Pencil size={15} /> Editar produto
+              </button>
+            </div>
+          </div>
+        ))}
+
+        {products.length === 0 && (
+          <div className="rounded-2xl border p-8 text-center text-sm" style={{color:'var(--color-accent, #b0658a)', borderColor:'var(--color-accent-soft, #fce7f3)'}}>
+            Nenhum produto cadastrado ainda.
+          </div>
+        )}
+      </div>
+
+      {/* Modal */}
 
       {/* Modal */}
       {isModalOpen && (
@@ -206,7 +259,7 @@ export function AdminProducts() {
             <form onSubmit={handleSave} className="p-6 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="col-span-1 md:col-span-2">
-                  <label className="block text-sm font-semibold mb-1" style={{color:'var(--color-primary, #c2458f)'}}>Título</label>
+                  <label className="block text-sm font-semibold mb-1" style={{color:'var(--color-primary, #c2458f)'}}>TÃ­tulo</label>
                   <input required type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full p-2.5 rounded-xl border outline-none transition-all" style={{background:'#ffffff', borderColor:'var(--color-accent-soft, #fbcfe8)', color:'#1e293b'}} />
                 </div>
                 
@@ -221,34 +274,34 @@ export function AdminProducts() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold mb-1" style={{color:'var(--color-primary, #c2458f)'}}>Preço Normal (R$)</label>
+                  <label className="block text-sm font-semibold mb-1" style={{color:'var(--color-primary, #c2458f)'}}>PreÃ§o Normal (R$)</label>
                   <input required type="number" step="0.01" min="0" value={regularPrice} onChange={e => setRegularPrice(e.target.value)} className="w-full p-2.5 rounded-xl border outline-none transition-all" style={{background:'#ffffff', borderColor:'var(--color-accent-soft, #fbcfe8)', color:'#1e293b'}} />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold mb-1" style={{color:'var(--color-primary, #c2458f)'}}>Preço Promocional (R$)</label>
+                  <label className="block text-sm font-semibold mb-1" style={{color:'var(--color-primary, #c2458f)'}}>PreÃ§o Promocional (R$)</label>
                   <input type="number" step="0.01" min="0" value={promoPrice} onChange={e => setPromoPrice(e.target.value)} className="w-full p-2.5 rounded-xl border outline-none transition-all" style={{background:'#ffffff', borderColor:'var(--color-accent-soft, #fbcfe8)', color:'#1e293b'}} placeholder="Opcional" />
                 </div>
 
                 <div>
                   <label className="block text-sm font-semibold mb-1" style={{color:'var(--color-primary, #c2458f)'}}>Valor de Revenda (R$)</label>
                   <input type="number" step="0.01" min="0" value={resalePrice} onChange={e => setResalePrice(e.target.value)} className="w-full p-2.5 rounded-xl border outline-none transition-all" style={{background:'#ffffff', borderColor:'var(--color-accent-soft, #fbcfe8)', color:'#1e293b'}} placeholder="Ex: 29,90" />
-                  <p className="text-[11px] mt-1" style={{color:'var(--color-accent, #b0658a)'}}>Preço sugerido de revenda. Usado para calcular o lucro do revendedor.</p>
+                  <p className="text-[11px] mt-1" style={{color:'var(--color-accent, #b0658a)'}}>PreÃ§o sugerido de revenda. Usado para calcular o lucro do revendedor.</p>
                 </div>
 
                 <div className="col-span-2 mt-2 p-4 rounded-xl border" style={{background:'#f8fafc', borderColor:'var(--color-accent-soft, #fce7f3)'}}>
-                  <label className="block text-sm font-bold mb-2" style={{color:'var(--color-primary, #c2458f)'}}>Variações (para vestuário)</label>
+                  <label className="block text-sm font-bold mb-2" style={{color:'var(--color-primary, #c2458f)'}}>VariaÃ§Ãµes (para vestuÃ¡rio)</label>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-[11px] font-semibold mb-1" style={{color:'var(--color-accent, #b0658a)'}}>Cores (separadas por vírgula)</label>
+                      <label className="block text-[11px] font-semibold mb-1" style={{color:'var(--color-accent, #b0658a)'}}>Cores (separadas por vÃ­rgula)</label>
                       <input type="text" value={colors} onChange={e => setColors(e.target.value)} className="w-full p-2.5 rounded-xl border outline-none transition-all" style={{background:'#ffffff', borderColor:'var(--color-accent-soft, #fbcfe8)', color:'#1e293b'}} placeholder="Ex: Preto, Branco, Vermelho" />
                     </div>
                     <div>
-                      <label className="block text-[11px] font-semibold mb-1" style={{color:'var(--color-accent, #b0658a)'}}>Tamanhos (separados por vírgula)</label>
+                      <label className="block text-[11px] font-semibold mb-1" style={{color:'var(--color-accent, #b0658a)'}}>Tamanhos (separados por vÃ­rgula)</label>
                       <input type="text" value={sizes} onChange={e => setSizes(e.target.value)} className="w-full p-2.5 rounded-xl border outline-none transition-all" style={{background:'#ffffff', borderColor:'var(--color-accent-soft, #fbcfe8)', color:'#1e293b'}} placeholder="Ex: P, M, G, GG" />
                     </div>
                   </div>
-                  <p className="text-[11px] mt-2" style={{color:'var(--color-accent, #b0658a)'}}>Deixe em branco para produtos sem variação (ex.: cosméticos). Quando preenchidas, a revendedora escolhe cor e tamanho ao adicionar no carrinho.</p>
+                  <p className="text-[11px] mt-2" style={{color:'var(--color-accent, #b0658a)'}}>Deixe em branco para produtos sem variaÃ§Ã£o (ex.: cosmÃ©ticos). Quando preenchidas, a revendedora escolhe cor e tamanho ao adicionar no carrinho.</p>
                 </div>
 
                 <div className="col-span-2 mt-2 p-4 rounded-xl border" style={{background:'#fff5f9', borderColor:'var(--color-accent-soft, #fce7f3)'}}>
@@ -260,12 +313,12 @@ export function AdminProducts() {
                       className="text-xs flex items-center gap-1 border px-2 py-1 rounded-lg font-bold transition-colors"
                       style={{background:'var(--color-accent-soft, #fff9fc)', borderColor:'var(--color-accent-soft, #fbcfe8)', color:'var(--color-accent, #e2569a)'}}
                     >
-                      <Plus size={14} /> Adicionar Nível
+                      <Plus size={14} /> Adicionar NÃ­vel
                     </button>
                   </div>
                   
                   {progressiveDiscounts.length === 0 ? (
-                    <p className="text-xs" style={{color:'var(--color-accent, #b0658a)'}}>Nenhum desconto progressivo configurado. Adicione níveis para conceder descontos por quantidade.</p>
+                    <p className="text-xs" style={{color:'var(--color-accent, #b0658a)'}}>Nenhum desconto progressivo configurado. Adicione nÃ­veis para conceder descontos por quantidade.</p>
                   ) : (
                     <div className="space-y-2">
                       {progressiveDiscounts.map((discount, index) => (
@@ -331,7 +384,7 @@ export function AdminProducts() {
                 <div className="col-span-2 flex flex-col gap-3 mt-2">
                   <div className="flex items-center gap-2">
                     <input type="checkbox" id="isActive" checked={isActive} onChange={e => setIsActive(e.target.checked)} className="w-5 h-5 rounded accent-[var(--color-primary)]" />
-                    <label htmlFor="isActive" className="font-medium cursor-pointer" style={{color:'var(--color-primary, #c2458f)'}}>Produto visível no catálogo público?</label>
+                    <label htmlFor="isActive" className="font-medium cursor-pointer" style={{color:'var(--color-primary, #c2458f)'}}>Produto visÃ­vel no catÃ¡logo pÃºblico?</label>
                   </div>
                   <div className="flex items-center gap-2">
                     <input type="checkbox" id="isFeatured" checked={isFeatured} onChange={e => setIsFeatured(e.target.checked)} className="w-5 h-5 rounded accent-[var(--color-primary)]" />
@@ -348,6 +401,6 @@ export function AdminProducts() {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
