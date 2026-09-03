@@ -10,6 +10,7 @@ export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [storeName, setStoreName] = useState('');
+  const [businessModel, setBusinessModel] = useState<'general' | 'cosmetics' | 'clothing'>('general');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
 
@@ -35,7 +36,7 @@ export function Login() {
       if (mode === 'login') {
         await login(email.trim(), password);
       } else {
-        await signup(email.trim(), password, storeName);
+        await signup(email.trim(), password, storeName, businessModel);
       }
       navigate('/mayluce', { replace: true });
     } catch (err: any) {
@@ -73,6 +74,36 @@ export function Login() {
                 onChange={e => setStoreName(e.target.value)}
                 className="glass-input w-full p-3 pl-10 outline-none"
               />
+            </div>
+          )}
+
+          {mode === 'signup' && (
+            <div>
+              <p className="text-xs font-bold mb-2 uppercase tracking-wider" style={{ color: 'var(--color-primary, #8C4A5A)' }}>Modelo de negócio</p>
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { value: 'general', label: 'Geral', icon: '🛍️' },
+                  { value: 'cosmetics', label: 'Cosméticos', icon: '🧴' },
+                  { value: 'clothing', label: 'Vestuário', icon: '👗' },
+                ].map(m => {
+                  const active = businessModel === m.value;
+                  return (
+                    <button
+                      type="button"
+                      key={m.value}
+                      onClick={() => setBusinessModel(m.value as any)}
+                      className="rounded-xl border py-2.5 px-1 text-center transition-all cursor-pointer"
+                      style={{
+                        borderColor: active ? 'var(--color-primary, #8C4A5A)' : 'var(--accent-soft, #f3f4f6)',
+                        background: active ? 'var(--accent-soft, #f3f4f6)' : 'transparent',
+                      }}
+                    >
+                      <span className="block text-xl">{m.icon}</span>
+                      <span className="block text-[11px] font-bold mt-0.5" style={{ color: 'var(--color-primary, #8C4A5A)' }}>{m.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           )}
 

@@ -130,7 +130,7 @@ export function AdminSettings() {
         </div>
       </header>
 
-      <div className="rounded-2xl shadow-lg border p-8 max-w-xl w-full" style={{background:'#ffffff', borderColor:'#1e293b'}}>
+      <div className="rounded-2xl shadow-lg border p-4 sm:p-8 max-w-xl w-full" style={{background:'#ffffff', borderColor:'#1e293b'}}>
         <form onSubmit={handleSave} className="space-y-6">
           <div>
             <label className="block text-sm font-bold mb-2 flex items-center gap-1.5" style={{color:'var(--color-primary, #c2458f)'}}>

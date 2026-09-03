@@ -74,7 +74,7 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitO
                   }}
                 >
                   <div className="flex-1">
-                    <h4 className="font-semibold text-sm" style={{color: isDark ? 'var(--color-accent-soft, #fce7f3)' : '#2D1E23'}}>{item.title}</h4>
+                    <h4 className="font-semibold text-sm" style={{color: isDark ? 'var(--color-accent-soft, #fce7f3)' : '#1f2937'}}>{item.title}</h4>
                     {(item.color || item.size) && (
                       <p className="text-xs font-medium mt-0.5" style={{color: isDark ? '#f472b6' : 'var(--color-accent, #C48B96)'}}>
                         {[item.color, item.size].filter(Boolean).join(' / ')}
@@ -102,8 +102,8 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitO
         {/* Checkout Form */}
         <div className="p-6 border-t transition-colors duration-300" style={{background: isDark ? '#1a0815' : 'rgba(255,255,255,0.45)', borderColor: isDark ? '#831843' : 'rgba(255,255,255,0.6)'}}>
           <div className="flex items-center justify-between mb-5">
-            <span className="font-semibold" style={{color: isDark ? 'var(--color-accent-soft, #fbcfe8)' : '#6E5B62'}}>Total do Pedido</span>
-            <span className="text-2xl font-black" style={{color: isDark ? '#f472b6' : '#2D1E23'}}>R$ {total.toFixed(2)}</span>
+            <span className="font-semibold" style={{color: isDark ? 'var(--color-accent-soft, #fbcfe8)' : '#6b7280'}}>Total do Pedido</span>
+            <span className="text-2xl font-black" style={{color: isDark ? '#f472b6' : '#1f2937'}}>R$ {total.toFixed(2)}</span>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-3">

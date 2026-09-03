@@ -195,7 +195,7 @@ export function AdminProducts() {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 backdrop-blur-sm z-50 flex items-center justify-center p-4" style={{background:'rgba(26,10,20,0.7)'}}>
-          <div className="rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl border" style={{background:'#ffffff', borderColor:'var(--color-accent-soft, #fce7f3)'}}>
+          <div className="rounded-2xl w-full max-w-2xl max-h-[92vh] overflow-y-auto shadow-2xl border" style={{background:'#ffffff', borderColor:'var(--color-accent-soft, #fce7f3)'}}>
             <div className="p-6 border-b flex justify-between items-center" style={{background:'var(--color-accent-soft, #fff9fc)', borderColor:'var(--color-accent-soft, #fce7f3)'}}>
               <h2 className="text-xl font-bold" style={{color:'var(--color-primary, #c2458f)'}}>
                 {editingProduct ? 'Editar Produto' : 'Novo Produto'}
