@@ -22,7 +22,7 @@ interface OrderTableProps {
 const statusMeta = {
   pending:    { label: 'Pendente',    dot: 'bg-yellow-400',   chip: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
   processing: { label: 'Processando', dot: 'bg-blue-400',     chip: 'bg-blue-100 text-blue-800 border-blue-200' },
-  completed:  { label: 'ConcluÃ­do',   dot: 'bg-green-400',    chip: 'bg-green-100 text-green-800 border-green-200' },
+  completed:  { label: 'Concluído',   dot: 'bg-green-400',    chip: 'bg-green-100 text-green-800 border-green-200' },
   cancelled:  { label: 'Cancelado',   dot: 'bg-red-400',      chip: 'bg-red-100 text-red-800 border-red-200' },
 } as const;
 
@@ -53,7 +53,7 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
     }
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     if (rect) {
-      const DROPDOWN_H = 190; // altura aproximada das 4 opÃ§Ãµes
+      const DROPDOWN_H = 190; // altura aproximada das 4 opções
       const openUp = rect.bottom + DROPDOWN_H + 8 > window.innerHeight && rect.top > DROPDOWN_H;
       setAnchor({ top: openUp ? rect.top - DROPDOWN_H - 4 : rect.bottom + 4, left: rect.left, openUp });
     }
@@ -72,7 +72,7 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
               <th className="p-4 font-semibold">Cliente</th>
               <th className="p-4 font-semibold">Valor</th>
               <th className="p-4 font-semibold">Status</th>
-              <th className="p-4 font-semibold text-right">AÃ§Ãµes</th>
+              <th className="p-4 font-semibold text-right">Ações</th>
             </tr>
           </thead>
           <tbody className="divide-y" style={{borderColor: 'var(--color-accent-soft, #fce7f3)'}}>
@@ -90,7 +90,7 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
                 <td className="p-4">
                   <div className="font-bold" style={{color: '#1e293b'}}>{order.resellerName}</div>
                   {order.resellerCode && (
-                    <div className="text-xs font-medium mt-0.5" style={{color: 'var(--color-accent, #e2569a)'}}>CPF/CÃ³d: {order.resellerCode}</div>
+                    <div className="text-xs font-medium mt-0.5" style={{color: 'var(--color-accent, #e2569a)'}}>CPF/Cód: {order.resellerCode}</div>
                   )}
                   <div className="text-sm" style={{color: '#64748b'}}>{order.resellerPhone}</div>
                 </td>
@@ -173,7 +173,7 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="font-bold truncate" style={{color: '#1e293b'}}>{order.resellerName}</div>
-                <div className="text-xs font-mono mt-0.5" style={{color: 'var(--color-accent, #b0658a)'}}>#{order.id.slice(0,8).toUpperCase()} Â· {order.createdAt.toLocaleDateString()}</div>
+                <div className="text-xs font-mono mt-0.5" style={{color: 'var(--color-accent, #b0658a)'}}>#{order.id.slice(0,8).toUpperCase()} · {order.createdAt.toLocaleDateString()}</div>
               </div>
               <div className="font-bold text-right whitespace-nowrap" style={{color: 'var(--color-primary, #c2458f)'}}>
                 R$ {order.totalAmount.toFixed(2)}
@@ -182,7 +182,7 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
 
             <div className="mt-2 text-xs space-y-0.5" style={{color: '#64748b'}}>
               {order.resellerPhone && <div>ðŸ“ž {order.resellerPhone}</div>}
-              {order.resellerCode && <div>CPF/CÃ³d: {order.resellerCode}</div>}
+              {order.resellerCode && <div>CPF/Cód: {order.resellerCode}</div>}
             </div>
 
             <div className="mt-3 flex items-center justify-between gap-2">

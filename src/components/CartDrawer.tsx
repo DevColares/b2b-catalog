@@ -7,13 +7,13 @@ interface CartDrawerProps {
   onClose: () => void;
   items: OrderItem[];
   onUpdateQuantity: (id: string, qty: number) => void;
-  onSubmitOrder: (name: string, phone: string, notes: string, resellerCode: string) => void;
+  onSubmitOrder: (name: string, phone: string, resellerCode: string) => void;
 }
 
 export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitOrder }: CartDrawerProps) {
   const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [resellerCode, setResellerCode] = useState('');
-  const [notes, setNotes] = useState('');
   const isDark = document.body.classList.contains('dark');
 
   const total = items.reduce((acc, item) => acc + (item.unitPrice * item.quantity), 0);
@@ -22,8 +22,8 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitO
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (name.trim() && items.length > 0) {
-      onSubmitOrder(name, '', notes, resellerCode);
+    if (name.trim() && phone.trim() && items.length > 0) {
+      onSubmitOrder(name, phone, resellerCode);
     }
   };
 
@@ -110,11 +110,24 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitO
             <div>
               <input 
                 type="text" 
-                placeholder="Seu nome de revendedora ✨ *"
+                placeholder="Seu nome *"
                 required
                 value={name}
                 onChange={e => setName(e.target.value)}
                 className="glass-input w-full p-3 outline-none"
+                style={isDark ? {background:'#260d20', borderColor:'#831843', color:'var(--color-accent-soft, #fce7f3)'} : undefined}
+              />
+            </div>
+
+            <div>
+              <input 
+                type="tel"
+                required
+                placeholder="Seu número de WhatsApp *"
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
+                className="glass-input w-full p-3 outline-none"
+                inputMode="tel"
                 style={isDark ? {background:'#260d20', borderColor:'#831843', color:'var(--color-accent-soft, #fce7f3)'} : undefined}
               />
             </div>
@@ -126,17 +139,6 @@ export function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, onSubmitO
                 value={resellerCode}
                 onChange={e => setResellerCode(e.target.value)}
                 className="glass-input w-full p-3 outline-none"
-                style={isDark ? {background:'#260d20', borderColor:'#831843', color:'var(--color-accent-soft, #fce7f3)'} : undefined}
-              />
-            </div>
-            
-            <div>
-              <textarea 
-                placeholder="Observações (opcional)"
-                value={notes}
-                onChange={e => setNotes(e.target.value)}
-                rows={2}
-                className="glass-input w-full p-3 outline-none resize-none"
                 style={isDark ? {background:'#260d20', borderColor:'#831843', color:'var(--color-accent-soft, #fce7f3)'} : undefined}
               />
             </div>

@@ -1,9 +1,9 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { Search, ShoppingBag, CheckCircle2, XCircle, X } from 'lucide-react';
 import { ProductCard } from '../components/ProductCard';
 import { FeaturedCard } from '../components/FeaturedCard';
 import { CartDrawer } from '../components/CartDrawer';
-import { applyBranding } from '../context/AuthContext';
+import { applyTheme } from '../context/AuthContext';
 import { subscribeToProducts, createOrder, subscribeToProfile } from '../lib/db';
 import type { Product, UserProfile } from '../lib/db';
 import { makeVariantKey, parseVariantKey } from '../utils/whatsapp';
@@ -16,8 +16,11 @@ export function Catalog({ uid }: { uid: string }) {
   const [cart, setCart] = useState<Record<string, number>>({});
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  // Splash até os primeiros dados do perfil e dos produtos chegarem (evita flash do conteúdo padrão)
+  const [loading, setLoading] = useState(true);
+  const loaded = useRef({ profile: false, products: false });
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
-  // Tema fixo: apenas claro (branco com tons de rosa)
+  // Tema fixo: apenas claro
   const isDarkMode = false;
 
   // Auto-dismiss do popup de notificação
@@ -30,6 +33,8 @@ export function Catalog({ uid }: { uid: string }) {
   useEffect(() => {
     const unsubscribe = subscribeToProducts(uid, (data) => {
       setProducts(data);
+      loaded.current.products = true;
+      if (loaded.current.profile) setLoading(false);
     });
     return () => unsubscribe();
   }, [uid]);
@@ -37,12 +42,25 @@ export function Catalog({ uid }: { uid: string }) {
   useEffect(() => {
     const unsubscribe = subscribeToProfile(uid, (p) => {
       setProfile(p);
-      applyBranding(p);
+      // Aplica o tema + branding da loja (título da aba, favicon, cores)
+      applyTheme(p);
+      loaded.current.profile = true;
+      if (loaded.current.products) setLoading(false);
     });
     return () => unsubscribe();
   }, [uid]);
 
-  const catalogTitle = profile?.title || 'Ofertas do Ciclo';
+  // Tela de carregamento (splash neutro, sem conteúdo padrão piscando)
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: '#ffffff' }}>
+        <div className="w-12 h-12 rounded-full border-4 border-slate-200 animate-spin" style={{ borderTopColor: 'var(--color-primary, #111827)' }} />
+        <p className="text-sm font-semibold" style={{ color: '#6b7280' }}>Carregando catálogo...</p>
+      </div>
+    );
+  }
+
+  const catalogTitle = profile?.title || 'Catálogo';
   const catalogSubtitle = profile?.subtitle || '';
 
   // Atualiza a quantidade de uma combinação específica (cor/tamanho)
@@ -107,7 +125,7 @@ export function Catalog({ uid }: { uid: string }) {
   // Carrossel = apenas ofertas/destaques. A grade abaixo lista TODOS os produtos ativos.
   const featuredProducts = filteredProducts.filter(p => p.isFeatured);
 
-  const handleSubmitOrder = async (name: string, phone: string, notes: string, resellerCode: string) => {
+  const handleSubmitOrder = async (name: string, phone: string, resellerCode: string) => {
     const totalAmount = cartItems.reduce((acc, item) => acc + (item.unitPrice * item.quantity), 0);
     
     try {
@@ -116,7 +134,6 @@ export function Catalog({ uid }: { uid: string }) {
         resellerPhone: phone,
         resellerCode: resellerCode || undefined,
         totalAmount,
-        notes,
         items: cartItems,
         status: 'pending'
       });
