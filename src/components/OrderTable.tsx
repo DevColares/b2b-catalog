@@ -61,11 +61,11 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
   };
 
   return (
-    <div className="w-full rounded-2xl shadow-lg overflow-hidden border transition-all duration-300" style={{background: '#ffffff', borderColor: '#fce7f3'}}>
+    <div className="w-full rounded-2xl shadow-lg overflow-hidden border transition-all duration-300" style={{background: '#ffffff', borderColor: 'var(--color-accent-soft, #fce7f3)'}}>
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b text-sm" style={{background: '#fff9fc', borderColor: '#fce7f3', color: '#b0658a'}}>
+            <tr className="border-b text-sm" style={{background: 'var(--color-accent-soft, #fff9fc)', borderColor: 'var(--color-accent-soft, #fce7f3)', color: 'var(--color-accent, #b0658a)'}}>
               <th className="p-4 font-semibold">ID / Data</th>
               <th className="p-4 font-semibold">Cliente</th>
               <th className="p-4 font-semibold">Valor</th>
@@ -73,14 +73,14 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
               <th className="p-4 font-semibold text-right">Ações</th>
             </tr>
           </thead>
-          <tbody className="divide-y" style={{borderColor: '#fce7f3'}}>
+          <tbody className="divide-y" style={{borderColor: 'var(--color-accent-soft, #fce7f3)'}}>
             {orders.map(order => {
               const isOpen = openDropdownId === order.id;
               const meta = statusMeta[order.status];
               return (
-              <tr key={order.id} className="transition-colors" style={{borderColor: '#fce7f3'}} onMouseEnter={e => (e.currentTarget.style.background = '#fff9fc')} onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
+              <tr key={order.id} className="transition-colors" style={{borderColor: 'var(--color-accent-soft, #fce7f3)'}} onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-accent-soft, #fff9fc)')} onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
                 <td className="p-4">
-                  <div className="font-mono text-xs mb-1" style={{color: '#b0658a'}}>#{order.id.slice(0,8).toUpperCase()}</div>
+                  <div className="font-mono text-xs mb-1" style={{color: 'var(--color-accent, #b0658a)'}}>#{order.id.slice(0,8).toUpperCase()}</div>
                   <div className="text-sm font-medium" style={{color: '#334155'}}>
                     {order.createdAt.toLocaleDateString()}
                   </div>
@@ -88,11 +88,11 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
                 <td className="p-4">
                   <div className="font-bold" style={{color: '#1e293b'}}>{order.resellerName}</div>
                   {order.resellerCode && (
-                    <div className="text-xs font-medium mt-0.5" style={{color: '#e2569a'}}>CPF/Cód: {order.resellerCode}</div>
+                    <div className="text-xs font-medium mt-0.5" style={{color: 'var(--color-accent, #e2569a)'}}>CPF/Cód: {order.resellerCode}</div>
                   )}
                   <div className="text-sm" style={{color: '#64748b'}}>{order.resellerPhone}</div>
                 </td>
-                <td className="p-4 font-bold" style={{color: '#c2458f'}}>
+                <td className="p-4 font-bold" style={{color: 'var(--color-primary, #c2458f)'}}>
                   R$ {order.totalAmount.toFixed(2)}
                 </td>
                 <td className="p-4">
@@ -107,7 +107,7 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
                     </button>
 
                     {isOpen && (
-                      <div className="fixed w-44 rounded-xl shadow-xl border overflow-hidden z-50" style={{background: '#fff9fc', borderColor: '#fce7f3', top: anchor?.top ?? 0, left: anchor?.left ?? 0}}>
+                      <div className="fixed w-44 rounded-xl shadow-xl border overflow-hidden z-50" style={{background: 'var(--color-accent-soft, #fff9fc)', borderColor: 'var(--color-accent-soft, #fce7f3)', top: anchor?.top ?? 0, left: anchor?.left ?? 0}}>
                         {statusOrder.map((status) => {
                           const item = statusMeta[status];
                           const isCurrent = status === order.status;
@@ -119,13 +119,13 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
                                 setOpenDropdownId(null);
                               }}
                               className="w-full text-left px-3 py-2 text-sm flex items-center gap-2 transition-colors cursor-pointer"
-                              style={{color: '#475569', background: isCurrent ? '#fff0f6' : 'transparent'}}
-                              onMouseEnter={e => (e.currentTarget.style.background = '#fdf2f8')}
-                              onMouseLeave={e => (e.currentTarget.style.background = isCurrent ? '#fff0f6' : 'transparent')}
+                              style={{color: '#475569', background: isCurrent ? 'var(--color-accent-soft, #fff0f6)' : 'transparent'}}
+                              onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-accent-soft, #fdf2f8)')}
+                              onMouseLeave={e => (e.currentTarget.style.background = isCurrent ? 'var(--color-accent-soft, #fff0f6)' : 'transparent')}
                             >
                               <span className={`w-2 h-2 rounded-full ${item.dot}`}></span>
                               <span className={`flex-1 text-left ${isCurrent ? 'font-bold' : ''}`}>{item.label}</span>
-                              {isCurrent && <Check size={14} style={{color: '#e2569a'}} />}
+                              {isCurrent && <Check size={14} style={{color: 'var(--color-accent, #e2569a)'}} />}
                             </button>
                           );
                         })}
@@ -139,7 +139,7 @@ export function OrderTable({ orders, onStatusChange, onViewDetails }: OrderTable
                     className="p-2 rounded-lg transition-colors inline-flex cursor-pointer"
                     title="Ver Detalhes"
                     style={{color: '#94a3b8'}}
-                    onMouseEnter={e => {e.currentTarget.style.color = '#e2569a'; e.currentTarget.style.background = '#fdf2f8';}}
+                    onMouseEnter={e => {e.currentTarget.style.color = 'var(--color-accent, #e2569a)'; e.currentTarget.style.background = 'var(--color-accent-soft, #fdf2f8)';}}
                     onMouseLeave={e => {e.currentTarget.style.color = '#94a3b8'; e.currentTarget.style.background = 'transparent';}}
                   >
                     <Eye size={20} />

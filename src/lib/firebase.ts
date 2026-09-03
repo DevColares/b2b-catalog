@@ -15,6 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
+// Observação: logo da loja é salvo comprimido no Firestore (sem Storage) — funciona no plano grátis.
 // Long-polling forçado: contorna bloqueio de rede (ERR_BLOCKED_BY_CLIENT)
 // no transporte padrão do Firestore em alguns navegadores/dispositivos.
 export const db = initializeFirestore(app, {

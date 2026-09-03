@@ -4,6 +4,19 @@ export interface OrderItem {
   sku: string;
   quantity: number;
   unitPrice: number;
+  color?: string;
+  size?: string;
+  variantKey?: string;
+}
+
+// Chave composta do carrinho: identifica uma combinação específica (cor/tamanho).
+export function makeVariantKey(pid: string, color = '', size = '') {
+  return `${pid}|${color || ''}|${size || ''}`;
+}
+
+export function parseVariantKey(key: string): { productId: string; color?: string; size?: string } {
+  const [pid, color, size] = key.split('|');
+  return { productId: pid, color: color || undefined, size: size || undefined };
 }
 
 export function formatWhatsAppMessage(
@@ -18,7 +31,8 @@ export function formatWhatsAppMessage(
   message += `*Itens do Pedido:*\n`;
 
   items.forEach((item) => {
-    message += `- ${item.quantity}x ${item.title} (SKU: ${item.sku}) - R$ ${item.unitPrice.toFixed(2)}\n`;
+    const variant = [item.color, item.size].filter(Boolean).join(' / ');
+    message += `- ${item.quantity}x ${item.title} (SKU: ${item.sku})${variant ? ` - ${variant}` : ''} - R$ ${item.unitPrice.toFixed(2)}\n`;
   });
 
   message += `\n*Total: R$ ${totalAmount.toFixed(2)}*\n`;

@@ -2,26 +2,26 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* ---- Soft Pink Glassmorphism — Brand ---- */
-  --color-primary: #8c4a5a;
-  --color-primary-hover: #743a48;
-  --color-accent: #c48b96;
-  --color-accent-soft: #f2d6dc;
+  /* ---- Neutro Branco — Brand padrão ---- */
+  --color-primary: #111827;
+  --color-primary-hover: #0b1220;
+  --color-accent: #4b5563;
+  --color-accent-soft: #f3f4f6;
 
   /* ---- Neutros / Tipografia ---- */
-  --color-ink: #2d1e23;
-  --color-ink-secondary: #6e5b62;
-  --color-muted: #9e8b92;
-  --color-cream: #fdf7f7;
+  --color-ink: #1f2937;
+  --color-ink-secondary: #4b5563;
+  --color-muted: #9ca3af;
+  --color-cream: #f9fafb;
 
   /* ---- Superfícies glass ---- */
-  --color-glass: rgba(255, 255, 255, 0.45);
-  --color-glass-hover: rgba(255, 255, 255, 0.65);
-  --color-glass-header: rgba(253, 247, 247, 0.75);
+  --color-glass: rgba(255, 255, 255, 0.55);
+  --color-glass-hover: rgba(255, 255, 255, 0.72);
+  --color-glass-header: rgba(255, 255, 255, 0.8);
   --color-glass-input: rgba(255, 255, 255, 0.6);
-  --color-glass-border: rgba(255, 255, 255, 0.6);
-  --color-glass-shadow: rgba(140, 74, 90, 0.08);
-  --color-glass-shadow-hover: rgba(140, 74, 90, 0.15);
+  --color-glass-border: rgba(229, 231, 235, 0.8);
+  --color-glass-shadow: rgba(17, 24, 39, 0.06);
+  --color-glass-shadow-hover: rgba(17, 24, 39, 0.12);
 
   --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
 }
@@ -33,8 +33,8 @@ body {
 
 body {
   /* Gradiente de fundo da página (sem attachment fixed: evita repaints no scroll mobile) */
-  background: linear-gradient(135deg, #fdf7f7 0%, #f5e6e8 50%, #ebd5d8 100%);
-  color: #2d1e23;
+  background: var(--store-bg-gradient, linear-gradient(180deg, #ffffff 0%, #f9fafb 100%));
+  color: #1f2937;
   font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
   font-size: 14px;
   line-height: 1.5;
@@ -130,19 +130,19 @@ body.dark {
 
 /* Botão de ação principal com gradiente rosa fosco */
 .glass-action {
-  background: linear-gradient(135deg, #8c4a5a 0%, #a35c6e 100%);
+  background: var(--store-gradient, linear-gradient(135deg, #374151, #111827));
   color: #ffffff;
   border: none;
   border-radius: 10px;
   padding: 10px 16px;
-  box-shadow: 0 4px 14px 0 rgba(140, 74, 90, 0.25);
+  box-shadow: 0 4px 14px 0 rgba(17, 24, 39, 0.2);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-action:hover {
-  background: linear-gradient(135deg, #743a48 0%, #8c4a5a 100%);
-  box-shadow: 0 8px 20px 0 rgba(140, 74, 90, 0.35);
+  background: var(--store-gradient-hover, linear-gradient(135deg, #111827, #374151));
+  box-shadow: 0 8px 20px 0 rgba(17, 24, 39, 0.3);
   transform: translateY(-1px);
 }
 
@@ -156,14 +156,15 @@ body.dark {
   letter-spacing: 0.04em;
 }
 
+/* NOT-TOP */
 .glass-badge--discount {
-  background: rgba(140, 74, 90, 0.12);
-  color: #8c4a5a;
+  background: var(--color-accent-soft);
+  color: var(--color-primary);
 }
 
 .glass-badge--category {
-  background: rgba(196, 139, 150, 0.18);
-  color: #6d3c47;
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--color-primary);
 }
 
 /* Input "vidro" para a busca */
@@ -173,42 +174,42 @@ body.dark {
   backdrop-filter: blur(16px) saturate(180%);
   border: 1px solid var(--color-glass-border);
   border-radius: 12px;
-  color: #2d1e23;
+  color: #1f2937;
   transition: box-shadow 0.3s ease, background 0.3s ease, border-color 0.3s ease;
 }
 
 /* Header fixo do catálogo (vidro leve) */
 .glass-header {
-  background: rgba(253, 247, 247, 0.75);
+  background: rgba(255, 255, 255, 0.8);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   backdrop-filter: blur(16px) saturate(180%);
 }
 
 /* Faixa do hero (vidro leve) */
 .glass-hero {
-  background: linear-gradient(135deg, rgba(242, 214, 220, 0.55) 0%, rgba(234, 205, 213, 0.4) 40%, rgba(196, 139, 150, 0.45) 100%);
+  background: linear-gradient(135deg, rgba(243, 244, 246, 0.8) 0%, rgba(229, 231, 235, 0.6) 40%, rgba(209, 213, 219, 0.6) 100%);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
 }
 
 /* Drawer do carrinho (vidro leve) */
 .glass-drawer {
-  background: rgba(253, 247, 247, 0.75);
+  background: rgba(255, 255, 255, 0.85);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   backdrop-filter: blur(16px) saturate(180%);
   border-left: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: -12px 0 40px 0 rgba(140, 74, 90, 0.15);
+  box-shadow: -12px 0 40px 0 rgba(17, 24, 39, 0.12);
 }
 
 .glass-input::placeholder {
-  color: #9e8b92;
+  color: #9ca3af;
 }
 
 .glass-input:focus {
   outline: none;
   background: rgba(255, 255, 255, 0.75);
   border-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 12px 32px 0 rgba(140, 74, 90, 0.15);
+  box-shadow: 0 12px 32px 0 rgba(17, 24, 39, 0.12);
 }
 
 /* Toast / popup de notificação */
@@ -269,7 +270,7 @@ body.dark {
   }
 
   .glass-hero {
-    background: linear-gradient(135deg, rgba(242, 214, 220, 0.75) 0%, rgba(234, 205, 213, 0.6) 40%, rgba(196, 139, 150, 0.65) 100%);
+    background: linear-gradient(135deg, rgba(243, 244, 246, 0.9) 0%, rgba(229, 231, 235, 0.75) 40%, rgba(209, 213, 219, 0.7) 100%);
   }
 
   .glass-card:hover {

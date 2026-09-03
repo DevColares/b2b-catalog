@@ -1,0 +1,30 @@
+rules_version = '2';
+
+// Isolamento multi-tenant: cada usuário só acessa /users/{seu-uid}/**
+// O catálogo público (/loja/:uid) lê apenas profile e products do vendedor.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Perfil da loja: leitura pública (catálogo), escrita só pelo dono
+    match /users/{uid}/profile/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Produtos: leitura pública (catálogo público), escrita só pelo dono
+    match /users/{uid}/products/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Pedidos: NÃO são públicos — só o dono da loja lê/escreve
+    match /users/{uid}/orders/{docId} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Bloqueia qualquer outro acesso a /users
+    match /users/{uid}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+  }
+}
