@@ -53,15 +53,6 @@ export function Catalog({ uid }: { uid: string }) {
   }, [uid]);
 
   // Tela de carregamento (splash neutro, sem conteúdo padrão piscando)
-  if (loading) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: '#ffffff' }}>
-        <div className="w-12 h-12 rounded-full border-4 border-slate-200 animate-spin" style={{ borderTopColor: 'var(--color-primary, #111827)' }} />
-        <p className="text-sm font-semibold" style={{ color: '#6b7280' }}>Carregando catálogo...</p>
-      </div>
-    );
-  }
-
   const catalogTitle = profile?.title || 'Catálogo';
   const catalogSubtitle = profile?.subtitle || '';
 
@@ -150,6 +141,15 @@ export function Catalog({ uid }: { uid: string }) {
       setToast({ type: 'error', message: 'Houve um erro ao enviar seu pedido. Tente novamente.' });
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: '#ffffff' }}>
+        <div className="w-12 h-12 rounded-full border-4 border-slate-200 animate-spin" style={{ borderTopColor: 'var(--color-primary, #111827)' }} />
+        <p className="text-sm font-semibold" style={{ color: '#6b7280' }}>Carregando catálogo...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pb-20 transition-colors duration-300" style={{ background: 'var(--store-bg-gradient, linear-gradient(180deg, #ffffff 0%, #f9fafb 100%))' }}>
