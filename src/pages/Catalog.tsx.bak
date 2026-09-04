@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from 'react';
+﻿C\T\import { useState, useMemo, useEffect, useRef } from 'react';
 import { Search, ShoppingBag, CheckCircle2, XCircle, X } from 'lucide-react';
 import { ProductCard } from '../components/ProductCard';
 import { FeaturedCard } from '../components/FeaturedCard';
@@ -326,3 +326,4 @@ export function Catalog({ uid }: { uid: string }) {
     </div>
   );
 }
+
