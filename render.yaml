@@ -1,0 +1,17 @@
+# Render Blueprint - deploy do catalogo (Vite + React + Firebase)
+# Render builda este Static Site a partir do branch main a cada push.
+# Publish directory: dist (gerado por npm run build).
+# As variaveis VITE_* vem do .env (ja commitado) e sao incluídas pelo Vite no
+# momento do build - por isso nao e preciso definir envVars aqui.
+services:
+  - type: static
+    name: b2b-catalog
+    runtime: static
+    rootDir: .
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    customHeaders:
+      - path: "/*"
+        headers:
+          - key: Cache-Control
+            value: "public, max-age=0, must-revalidate"
