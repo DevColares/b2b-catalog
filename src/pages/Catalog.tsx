@@ -32,6 +32,7 @@ export function Catalog({ uid }: { uid: string }) {
 
   useEffect(() => {
     const unsubscribe = subscribeToProducts(uid, (data) => {
+      console.log('[Catalogo] produtos carregados:', data.length, 'para uid', uid);
       setProducts(data);
       loaded.current.products = true;
       if (loaded.current.profile) setLoading(false);
@@ -41,6 +42,7 @@ export function Catalog({ uid }: { uid: string }) {
 
   useEffect(() => {
     const unsubscribe = subscribeToProfile(uid, (p) => {
+      console.log('[Catalogo] perfil carregado:', p.title ?? '(sem titulo)', 'para uid', uid);
       setProfile(p);
       // Aplica o tema + branding da loja (título da aba, favicon, cores)
       applyTheme(p);
@@ -271,7 +273,11 @@ export function Catalog({ uid }: { uid: string }) {
         ) : (
           <div className="text-center py-20" style={{ color: isDarkMode ? '#f472b6' : '#6b7280' }}>
             <Search size={48} className="mx-auto mb-4 opacity-20" />
-            <p className="text-lg">Nenhum produto encontrado para "{searchQuery}"</p>
+            {searchQuery ? (
+              <p className="text-lg">Nenhum produto encontrado para "{searchQuery}"</p>
+            ) : (
+              <p className="text-lg">Esta loja ainda não tem produtos cadastrados.</p>
+            )}
           </div>
         )}
       </main>
